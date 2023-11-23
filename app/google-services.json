@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "840072747863",
+    "firebase_url": "https://wallset-2940a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "wallset-2940a",
+    "storage_bucket": "wallset-2940a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840072747863:android:e6d21c65fea965fe683c12",
+        "android_client_info": {
+          "package_name": "com.example.firebasestorage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9R5qcQ5mx2orK4eDd0e7OP18-r80xwEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:840072747863:android:05ad85fb0d720212683c12",
+        "android_client_info": {
+          "package_name": "com.nizam.wallset"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9R5qcQ5mx2orK4eDd0e7OP18-r80xwEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
