@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         val toLoad = sharedPreferences.toLoad(
             arrayOf(Calendar.getInstance().get(Calendar.DATE), Calendar.getInstance().get(Calendar.MONTH))
         )
-        println(toLoad)
         if(toLoad) {
             val firebaseDatabase = FirebaseDatabase.getInstance()
             val myRef = firebaseDatabase.getReference("jsonUrl") // Replace with your data node
