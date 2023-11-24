@@ -3,6 +3,7 @@ package com.nizam.wallset.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -12,6 +13,7 @@ import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.ActivityMainBinding
+import com.nizam.wallset.ui.adapters.MainViewPagerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,7 +43,13 @@ class MainActivity : AppCompatActivity() {
             getUrlAndDownloadJSON()
         }
 
-
+        binding.viewPager.adapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Categories"
+                1 -> tab.text = "Top Picks"
+            }
+        }.attach()
     }
 
     private fun getUrlAndDownloadJSON() {
