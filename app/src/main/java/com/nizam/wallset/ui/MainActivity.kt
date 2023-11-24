@@ -47,7 +47,11 @@ class MainActivity : AppCompatActivity() {
     private fun getUrlAndDownloadJSON() {
         val sharedPreferences = SharedPreferences(this)
         val toLoad = sharedPreferences.toLoad(
-            arrayOf(Calendar.getInstance().get(Calendar.DATE), Calendar.getInstance().get(Calendar.MONTH))
+            arrayOf(
+                Calendar.getInstance().get(Calendar.DATE),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.YEAR)
+            )
         )
         if(toLoad) {
             val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -56,7 +60,13 @@ class MainActivity : AppCompatActivity() {
             myRef.addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     viewModel.download(snapshot.value.toString())
-                    sharedPreferences.setLastFetchedDate(arrayOf(Calendar.getInstance().get(Calendar.DATE), Calendar.getInstance().get(Calendar.MONTH)))
+                    sharedPreferences.setLastFetchedDate(
+                        arrayOf(
+                            Calendar.getInstance().get(Calendar.DATE),
+                            Calendar.getInstance().get(Calendar.MONTH),
+                            Calendar.getInstance().get(Calendar.YEAR)
+                        )
+                    )
                 }
 
                 override fun onCancelled(error: DatabaseError) {
