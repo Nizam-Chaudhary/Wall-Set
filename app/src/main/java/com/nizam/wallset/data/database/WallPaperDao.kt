@@ -23,5 +23,5 @@ interface WallPaperDao {
     fun getCategories() : LiveData<List<String>>
 
     @Query("SELECT url FROM WallPaper WHERE category = :category LIMIT 1")
-    fun getDisplayWallForCategories(category: String) : LiveData<List<String>>
+    fun getDisplayWallForCategories(category: String) : LiveData<String>
 }

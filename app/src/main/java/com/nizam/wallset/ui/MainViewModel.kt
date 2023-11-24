@@ -1,12 +1,14 @@
 package com.nizam.wallset.ui
 
 import androidx.lifecycle.ViewModel
+import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.entities.WallPaper
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import java.util.Calendar
 
 class MainViewModel (
     private val repository: WallPaperRepository
@@ -51,7 +53,17 @@ class MainViewModel (
                 }
             }
 
-
+            SharedPreferences(MainActivity().baseContext).setLastFetchedDate(
+                arrayOf(
+                    Calendar.getInstance().get(Calendar.DATE),
+                    Calendar.getInstance().get(Calendar.MONTH),
+                    Calendar.getInstance().get(Calendar.YEAR)
+                )
+            )
+            val test = SharedPreferences(MainActivity().baseContext).getVal()
+            println(
+                "${test[0]} / ${test[1]} / ${test[2]}"
+            )
         }
     }
 }

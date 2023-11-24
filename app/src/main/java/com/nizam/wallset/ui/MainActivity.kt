@@ -63,18 +63,10 @@ class MainActivity : AppCompatActivity() {
         )
         if(toLoad) {
             val firebaseDatabase = FirebaseDatabase.getInstance()
-            val myRef = firebaseDatabase.getReference("jsonUrl") // Replace with your data node
-
+            val myRef = firebaseDatabase.getReference("jsonUrl")
             myRef.addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     viewModel.download(snapshot.value.toString())
-                    sharedPreferences.setLastFetchedDate(
-                        arrayOf(
-                            Calendar.getInstance().get(Calendar.DATE),
-                            Calendar.getInstance().get(Calendar.MONTH),
-                            Calendar.getInstance().get(Calendar.YEAR)
-                        )
-                    )
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -23,4 +23,10 @@ class SharedPreferences(
 
     fun toLoad(date: Array<Int>) = sharedPreferences.getInt(fetchedDayOfMonth, 0) < date[0] ||
         sharedPreferences.getInt(fetchMonth, 0) < date[1] || sharedPreferences.getInt(fetchYear, 0) < date [2]
+
+    fun getVal() = arrayOf(
+        sharedPreferences.getInt(fetchedDayOfMonth,0),
+        sharedPreferences.getInt(fetchMonth,0),
+        sharedPreferences.getInt(fetchYear,0),
+        )
 }
