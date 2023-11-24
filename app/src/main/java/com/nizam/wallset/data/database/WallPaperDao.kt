@@ -21,4 +21,7 @@ interface WallPaperDao {
 
     @Query("SELECT DISTINCT category FROM WallPaper")
     fun getCategories() : LiveData<List<String>>
+
+    @Query("SELECT url FROM WallPaper WHERE category = :category LIMIT 1")
+    fun getDisplayWallForCategories(category: String) : LiveData<List<String>>
 }

@@ -23,6 +23,8 @@ class MainViewModel (
 
     fun getCategories() = repository.getCategories()
 
+    fun getDisplayWallForCategories(category: String) = repository.getDisplayWallForCategories(category)
+
     fun download(url: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val jsonArray = repository.downloadAndProcessJsonArray(url)

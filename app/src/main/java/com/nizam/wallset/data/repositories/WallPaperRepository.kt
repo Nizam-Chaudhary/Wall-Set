@@ -22,6 +22,8 @@ class WallPaperRepository(
 
     fun getCategories() = database.getWallPaperDao().getCategories()
 
+    fun getDisplayWallForCategories(category: String) = database.getWallPaperDao().getDisplayWallForCategories(category)
+
     suspend fun downloadAndProcessJsonArray(url: String): JSONArray {
         return withContext(Dispatchers.IO) {
             val jsonResponse = downloadJson(url)
