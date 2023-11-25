@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             val myRef = firebaseDatabase.getReference("jsonUrl")
             myRef.addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    viewModel.download(snapshot.value.toString())
+                    viewModel.download(snapshot.value.toString(), this@MainActivity)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

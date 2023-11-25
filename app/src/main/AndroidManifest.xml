@@ -15,6 +15,9 @@
         android:theme="@style/Theme.WallSet"
         tools:targetApi="31">
         <activity
+            android:name=".ui.WallPaperByCategoriesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -24,4 +27,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

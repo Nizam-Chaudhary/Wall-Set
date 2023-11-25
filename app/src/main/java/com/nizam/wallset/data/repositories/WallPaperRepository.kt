@@ -20,9 +20,7 @@ class WallPaperRepository(
 
     fun getWallPaperByCategories(category: String) = database.getWallPaperDao().getWallPaperByCategories(category)
 
-    fun getCategories() = database.getWallPaperDao().getCategories()
-
-    fun getDisplayWallForCategories(category: String) = database.getWallPaperDao().getDisplayWallForCategories(category)
+    fun getCategoryItems() = database.getWallPaperDao().getCategoryItems()
 
     suspend fun downloadAndProcessJsonArray(url: String): JSONArray {
         return withContext(Dispatchers.IO) {
@@ -43,7 +41,6 @@ class WallPaperRepository(
 
             while (reader.readLine().also { line = it } != null) {
                 response.append(line)
-                println("JSON LINE : $line")
             }
 
 

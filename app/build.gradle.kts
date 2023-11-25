@@ -66,6 +66,6 @@ dependencies {
     ksp("androidx.lifecycle:lifecycle-common:2.6.2")
 
     // Glide
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.nizam.wallset" />
+                  <option name="mobileSdkAppId" value="1:840072747863:android:05ad85fb0d720212683c12" />
+                  <option name="projectId" value="wallset-2940a" />
+                  <option name="projectNumber" value="840072747863" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

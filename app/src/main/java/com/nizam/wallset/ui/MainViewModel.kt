@@ -1,5 +1,6 @@
 package com.nizam.wallset.ui
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.entities.WallPaper
@@ -23,11 +24,8 @@ class MainViewModel (
 
     fun getWallPaperByCategories(category: String) = repository.getWallPaperByCategories(category)
 
-    fun getCategories() = repository.getCategories()
-
-    fun getDisplayWallForCategories(category: String) = repository.getDisplayWallForCategories(category)
-
-    fun download(url: String) {
+    fun getCategoryItems() = repository.getCategoryItems()
+    fun download(url: String, context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             val jsonArray = repository.downloadAndProcessJsonArray(url)
             delete()
@@ -52,17 +50,12 @@ class MainViewModel (
                     e.printStackTrace()
                 }
             }
-
-            SharedPreferences(MainActivity().baseContext).setLastFetchedDate(
+            SharedPreferences(context).setLastFetchedDate(
                 arrayOf(
                     Calendar.getInstance().get(Calendar.DATE),
                     Calendar.getInstance().get(Calendar.MONTH),
                     Calendar.getInstance().get(Calendar.YEAR)
                 )
-            )
-            val test = SharedPreferences(MainActivity().baseContext).getVal()
-            println(
-                "${test[0]} / ${test[1]} / ${test[2]}"
             )
         }
     }

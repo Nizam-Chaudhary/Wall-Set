@@ -7,35 +7,35 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.nizam.wallset.data.database.CategoryItem
+import com.nizam.wallset.data.database.entities.WallPaper
 import com.nizam.wallset.databinding.WallpaperItemBinding
 
-class CategoryRVAdapter(
-    var categoryItems: List<CategoryItem>,
+class WallPaperRVAdapter(
+    var wallpapers: List<WallPaper>,
     private val context: Context
-) : RecyclerView.Adapter<CategoryRVAdapter.CategoryRVAdapterHolder>(){
-    inner class CategoryRVAdapterHolder(view: WallpaperItemBinding) : ViewHolder(view.root) {
+) : RecyclerView.Adapter<WallPaperRVAdapter.WallPaperViewHolder>() {
+    inner class WallPaperViewHolder(view: WallpaperItemBinding) : ViewHolder(view.root) {
         val imageView = view.imageView
         val textView = view.textView
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryRVAdapterHolder {
-        return CategoryRVAdapterHolder(WallpaperItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WallPaperViewHolder {
+        return WallPaperViewHolder(WallpaperItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onBindViewHolder(holder: CategoryRVAdapterHolder, position: Int) {
-        val categoryItem = categoryItems[position]
+    override fun onBindViewHolder(holder: WallPaperViewHolder, position: Int) {
+        val wallpaper = wallpapers[position]
 
-        holder.textView.text = categoryItem.category
+        holder.textView.text = wallpaper.name
 
         Glide.with(context)
-            .load(categoryItem.url)
+            .load(wallpaper.url)
             .centerCrop() // Apply the centerCrop transformation
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
     }
 
     override fun getItemCount(): Int {
-        return categoryItems.size
+        return wallpapers.size
     }
 }
