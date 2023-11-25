@@ -1,6 +1,7 @@
 package com.nizam.wallset.ui.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nizam.wallset.data.database.CategoryItem
 import com.nizam.wallset.databinding.WallpaperItemBinding
+import com.nizam.wallset.ui.WallPaperByCategoriesActivity
 
 class CategoryRVAdapter(
     var categoryItems: List<CategoryItem>,
@@ -33,6 +35,13 @@ class CategoryRVAdapter(
             .centerCrop() // Apply the centerCrop transformation
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            Intent(context, WallPaperByCategoriesActivity::class.java).apply {
+                this.putExtra("category", categoryItem.category)
+                context.startActivity(this)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
