@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.nizam.wallset.R
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
@@ -39,7 +39,7 @@ class CategoriesFragment : Fragment() {
 
         val adapter = CategoryRVAdapter(emptyList(), requireContext())
         binding.rvCategory.apply {
-            this.layoutManager = LinearLayoutManager(requireContext())
+            this.layoutManager = GridLayoutManager(requireContext(), 2)
             this.adapter = adapter
         }
 
