@@ -8,7 +8,7 @@ import com.nizam.wallset.data.database.entities.WallPaper
 
 @Database(
     entities = [WallPaper::class],
-    version = 2
+    version = 1
 )
 abstract class WallPaperDatabase : RoomDatabase() {
     abstract fun getWallPaperDao() : WallPaperDao

@@ -9,5 +9,6 @@ data class WallPaper(
     val owner: String,
     val category: String,
     @PrimaryKey
-    val url: String
+    val url: String,
+    val keyType: String
 )

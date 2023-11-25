@@ -37,12 +37,14 @@ class MainViewModel (
                     val owner = jsonObject.getString("author")
                     val category = jsonObject.getString("category")
                     val imageUrl = jsonObject.getString("url")
+                    val keyType = jsonObject.getString("key")
 
                     val wallPaper = WallPaper(
                         name = name,
                         owner = owner,
                         category = category,
-                        url = imageUrl)
+                        url = imageUrl,
+                        keyType = keyType)
 
                     insert(wallPaper)
 
