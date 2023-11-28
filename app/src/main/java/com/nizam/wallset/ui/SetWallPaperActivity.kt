@@ -24,7 +24,8 @@ class SetWallPaperActivity : AppCompatActivity() {
         url?.let {
             Glide.with(this)
                 .load(url)
-                .centerCrop()
+                .thumbnail(0.1f)
+                .fitCenter()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.imageView)
         }

@@ -19,6 +19,6 @@ interface WallPaperDao {
     @Query("SELECT * FROM WallPaper WHERE category = :category")
     fun getWallPaperByCategories(category: String) : LiveData<List<WallPaper>>
 
-    @Query("SELECT category, MAX(url) as url FROM WallPaper GROUP BY category ORDER BY category")
+    @Query("SELECT category, url FROM WallPaper WHERE categoryDisplay = true")
     fun getCategoryItems(): LiveData<List<CategoryItem>>
 }
