@@ -26,6 +26,8 @@ abstract class WallPaperDatabase : RoomDatabase() {
             context.applicationContext,
             WallPaperDatabase::class.java,
             name = "WallSetDb.db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

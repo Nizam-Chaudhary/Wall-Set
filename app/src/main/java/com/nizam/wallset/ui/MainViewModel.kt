@@ -23,6 +23,11 @@ class MainViewModel (
     fun getWallPaperByCategories(category: String) = repository.getWallPaperByCategories(category)
 
     fun getCategoryItems() = repository.getCategoryItems()
+
+    fun getTodayWall() = repository.getTodayWall()
+
+    fun getFourTopPicks() = repository.getFourTopPicks()
+
     fun download(url: String, context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             val jsonArray = repository.downloadAndProcessJsonArray(url)

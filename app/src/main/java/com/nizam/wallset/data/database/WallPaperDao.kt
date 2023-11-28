@@ -21,4 +21,10 @@ interface WallPaperDao {
 
     @Query("SELECT category, url FROM WallPaper WHERE categoryDisplay = true")
     fun getCategoryItems(): LiveData<List<CategoryItem>>
+
+    @Query("SELECT url FROM WallPaper WHERE todayWall = true")
+    fun getTodayWall() : LiveData<String>
+
+    @Query("SELECT url FROM WallPaper WHERE topPick = true ORDER BY RANDOM() LIMIT 4")
+    fun getFourTopPicks() : LiveData<List<String>>
 }
