@@ -27,4 +27,10 @@ interface WallPaperDao {
 
     @Query("SELECT url FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM() LIMIT 4")
     fun getFourTopPicks() : MutableList<String>
+
+    @Query("SELECT url FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM()")
+    fun getTopPicks() : LiveData<List<String>>
+
+    @Query("SELECT url FROM WallPaper ORDER BY RANDOM()")
+    fun getAllImages() : LiveData<List<String>>
 }

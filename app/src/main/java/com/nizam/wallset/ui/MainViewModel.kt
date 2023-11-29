@@ -2,12 +2,14 @@ package com.nizam.wallset.ui
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.entities.WallPaper
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONException
+import java.util.Calendar
 
 class MainViewModel (
     private val repository: WallPaperRepository
@@ -27,6 +29,10 @@ class MainViewModel (
     fun getTodayWall() = repository.getTodayWall()
 
     fun getFourTopPicks() = repository.getFourTopPicks()
+
+    fun getTopPicks() = repository.getTopPicks()
+
+    fun getAllImages() = repository.getAllImages()
 
     fun download(url: String, context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -56,6 +62,13 @@ class MainViewModel (
 
                     insert(wallPaper)
                 }
+                SharedPreferences(context).setLastFetchedDate(
+                    arrayOf(
+                        Calendar.getInstance().get(Calendar.DATE),
+                        Calendar.getInstance().get(Calendar.MONTH),
+                        Calendar.getInstance().get(Calendar.YEAR)
+                    )
+                )
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

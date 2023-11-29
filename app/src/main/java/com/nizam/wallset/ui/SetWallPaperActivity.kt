@@ -7,6 +7,9 @@ import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nizam.wallset.databinding.ActivitySetWallPaperBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SetWallPaperActivity : AppCompatActivity() {
 
@@ -25,41 +28,48 @@ class SetWallPaperActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(url)
                 .thumbnail(0.1f)
-                .fitCenter()
+                .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.imageView)
         }
 
         binding.fabSetOnBothScreen.setOnClickListener {
-            val bitmap = binding.imageView.drawable.toBitmap()
-            val wallPaperManager = WallpaperManager.getInstance(this.applicationContext)
+           CoroutineScope(Dispatchers.Default).launch {
+               val bitmap = binding.imageView.drawable.toBitmap()
+               val wallPaperManager = WallpaperManager.getInstance(applicationContext)
 
-            try {
-                wallPaperManager.setBitmap(bitmap)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+               try {
+                   wallPaperManager.setBitmap(bitmap)
+               } catch (e: Exception) {
+                   e.printStackTrace()
+               }
+           }
         }
 
         binding.fabSetOnLockScreen.setOnClickListener {
-            val bitmap = binding.imageView.drawable.toBitmap()
-            val wallPaperManager = WallpaperManager.getInstance(this.applicationContext)
+           CoroutineScope(Dispatchers.Default).launch {
+               val bitmap = binding.imageView.drawable.toBitmap()
+               val wallPaperManager = WallpaperManager.getInstance(applicationContext)
 
-            try {
-                wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_LOCK)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+               try {
+                   wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_LOCK)
+               } catch (e: Exception) {
+                   e.printStackTrace()
+               }
+           }
         }
 
         binding.fabSetOnHomeScreen.setOnClickListener {
-            val bitmap = binding.imageView.drawable.toBitmap()
-            val wallPaperManager = WallpaperManager.getInstance(this.applicationContext)
+            CoroutineScope(Dispatchers.Default).launch {
 
-            try {
-                wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_SYSTEM)
-            } catch (e: Exception) {
-                e.printStackTrace()
+                val bitmap = binding.imageView.drawable.toBitmap()
+                val wallPaperManager = WallpaperManager.getInstance(applicationContext)
+
+                try {
+                    wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_SYSTEM)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

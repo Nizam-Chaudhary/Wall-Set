@@ -26,6 +26,10 @@ class WallPaperRepository(
 
     fun getFourTopPicks() = database.getWallPaperDao().getFourTopPicks()
 
+    fun getTopPicks() = database.getWallPaperDao().getTopPicks()
+
+    fun getAllImages() = database.getWallPaperDao().getAllImages()
+
     suspend fun downloadAndProcessJsonArray(url: String): JSONArray {
         return withContext(Dispatchers.IO) {
             val jsonResponse = downloadJson(url)

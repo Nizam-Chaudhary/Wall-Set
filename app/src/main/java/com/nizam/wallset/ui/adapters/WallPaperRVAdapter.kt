@@ -33,9 +33,9 @@ class WallPaperRVAdapter(
 
         Glide.with(context)
             .load(wallpaper.url)
-            .thumbnail(0.1f)
             .placeholder(R.drawable.ic_image_thumbnail)
-            .centerCrop() // Apply the centerCrop transformation
+            .optionalCenterCrop()
+            .thumbnail(0.1f)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
 
