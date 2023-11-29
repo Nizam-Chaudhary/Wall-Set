@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:text="Home Screen"
-        style="@style/curved"
+        style="@style/CurvedImageView"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/fabSetOnLockScreen" />
 
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:text="Lock Screen"
-        style="@style/curved"
+        style="@style/CurvedImageView"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/fabSetOnBothScreen" />
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:text="On Both Screen"
-        style="@style/curved"
+        style="@style/CurvedImageView"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
