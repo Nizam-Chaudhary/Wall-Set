@@ -33,8 +33,8 @@ class CategoryRVAdapter(
 
         Glide.with(context)
             .load(categoryItem.url)
-            .thumbnail(0.1f)
             .placeholder(R.drawable.ic_image_thumbnail)
+            .thumbnail(0.1f)
             .centerCrop() // Apply the centerCrop transformation
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)

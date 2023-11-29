@@ -56,6 +56,7 @@ class TopPicksFragment : Fragment() {
                 recommendationPagerAdapter.imagesUrl = topPickUrls
                 recommendationPagerAdapter.notifyDataSetChanged()
                 binding.vp2Recommendation.currentItem = 2
+                binding.wormDotsIndicator.attachTo(binding.vp2Recommendation)
             }
         }
     }
