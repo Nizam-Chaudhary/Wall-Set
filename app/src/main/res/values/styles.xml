@@ -1,0 +1,12 @@
+<resources>
+    <style name="CurvedImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">20dp</item> <!-- Adjust the radius as needed -->
+        <item name="cardBackgroundColor">@android:color/white</item> <!-- Change the color if needed -->
+    </style>
+
+    <style name="curved">
+        <item name="cornerSize">8%</item>
+    </style>
+</resources>
