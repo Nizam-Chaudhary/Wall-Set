@@ -3,12 +3,12 @@ package com.nizam.wallset.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.nizam.wallset.R
 import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
@@ -43,13 +43,24 @@ class MainActivity : AppCompatActivity() {
             getUrlAndDownloadJSON()
         }
 
-        binding.viewPager.adapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Categories"
-                1 -> tab.text = "Top Picks"
+        val viewPagerAdapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
+
+        binding.vp2Main.apply {
+            this.adapter = viewPagerAdapter
+            this.currentItem = 1
+            this.isUserInputEnabled = false
+        }
+
+
+        binding.bottomNavigationView.selectedItemId = R.id.home
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.home -> binding.vp2Main.currentItem = 1
+                R.id.category -> binding.vp2Main.currentItem = 0
             }
-        }.attach()
+            return@setOnItemSelectedListener true
+        }
     }
 
     private fun getUrlAndDownloadJSON() {
