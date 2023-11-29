@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.nizam.wallset.R
 import com.nizam.wallset.databinding.RecommendationImageItemBinding
 
 class RecommendationPagerAdapter(
@@ -34,7 +35,9 @@ class RecommendationPagerAdapter(
 
         Glide.with(context)
             .load(imageUrl)
-            .centerCrop()
+            .placeholder(R.drawable.ic_image_thumbnail)
+            .optionalCenterCrop()
+            .thumbnail(0.1f)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
     }

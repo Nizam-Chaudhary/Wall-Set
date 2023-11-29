@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.nizam.wallset.R
 import com.nizam.wallset.data.database.WallPaperDatabase
@@ -16,6 +13,9 @@ import com.nizam.wallset.databinding.FragmentTopPicksBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
 import com.nizam.wallset.ui.adapters.RecommendationPagerAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TopPicksFragment : Fragment() {
 
@@ -25,7 +25,7 @@ class TopPicksFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_top_picks, container, false)
         binding = FragmentTopPicksBinding.bind(view)
         val database = WallPaperDatabase(requireContext())
@@ -43,24 +43,20 @@ class TopPicksFragment : Fragment() {
             this.adapter = recommendationPagerAdapter
         }
 
-        var todayWall: String? = null
+        var topPickUrls = mutableListOf<String>()
 
-        viewModel.getFourTopPicks().observeOnce(viewLifecycleOwner) {
-            recommendationPagerAdapter.imagesUrl = it
-            recommendationPagerAdapter.notifyDataSetChanged()
+        CoroutineScope(Dispatchers.IO).launch {
+            val url = viewModel.getTodayWall()
+            topPickUrls = viewModel.getFourTopPicks()
+            topPickUrls.add(2, url)
         }
 
-        viewModel.getTodayWall().observe(viewLifecycleOwner) {
-            todayWall = it
-        }
-    }
-
-    private fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: Observer<T>) {
-        observe(owner, object : Observer<T> {
-            override fun onChanged(t: T) {
-                observer.onChanged(t)
-                removeObserver(this) // Remove the observer after the first onChanged event
+        CoroutineScope(Dispatchers.Main).launch {
+            if(topPickUrls.isNotEmpty()) {
+                recommendationPagerAdapter.imagesUrl = topPickUrls
+                recommendationPagerAdapter.notifyDataSetChanged()
+                binding.vp2Recommendation.currentItem = 2
             }
-        })
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.nizam.wallset.R
 import com.nizam.wallset.data.database.entities.WallPaper
 import com.nizam.wallset.databinding.WallpaperItemBinding
 import com.nizam.wallset.ui.SetWallPaperActivity
@@ -33,6 +34,7 @@ class WallPaperRVAdapter(
         Glide.with(context)
             .load(wallpaper.url)
             .thumbnail(0.1f)
+            .placeholder(R.drawable.ic_image_thumbnail)
             .centerCrop() // Apply the centerCrop transformation
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
