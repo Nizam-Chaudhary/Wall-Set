@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    viewModel.download("https://ipfs.filebase.io/ipfs/QmRBLTkYv9BfnM18fzJ2hhpKbMWpGPp4aCU2nEMuNcgVn8", this@MainActivity)
                 }
             })
         }
