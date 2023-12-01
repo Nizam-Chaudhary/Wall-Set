@@ -31,11 +31,16 @@ class CategoryRVAdapter(
 
         holder.textView.text = categoryItem.category
 
+        val thumbnailRequest = Glide
+            .with(context)
+            .load(categoryItem.lowResUrl)
+            .centerCrop()
+
         Glide.with(context)
             .load(categoryItem.url)
+            .thumbnail(thumbnailRequest)
             .placeholder(R.drawable.ic_image_thumbnail)
-            .optionalCenterCrop()
-            .thumbnail(0.1f)
+            .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
 

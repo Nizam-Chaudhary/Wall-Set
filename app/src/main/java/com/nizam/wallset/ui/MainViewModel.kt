@@ -26,9 +26,8 @@ class MainViewModel (
 
     fun getCategoryItems() = repository.getCategoryItems()
 
-    fun getTodayWall() = repository.getTodayWall()
+    fun getRecommendationWalls() = repository.getRecommendationWalls()
 
-    fun getFourTopPicks() = repository.getFourTopPicks()
 
     fun getTopPicks() = repository.getTopPicks()
 
@@ -46,6 +45,7 @@ class MainViewModel (
                     val owner = jsonObject.getString("owner")
                     val category = jsonObject.getString("category")
                     val imageUrl = jsonObject.getString("url")
+                    val lowResUrl = jsonObject.getString("low_res_url")
                     val topPick = jsonObject.getBoolean("top_pick")
                     val categoryDisplay = jsonObject.getBoolean("category_display")
                     val todayWall = jsonObject.getBoolean("today_wall")
@@ -55,6 +55,7 @@ class MainViewModel (
                         owner = owner,
                         category = category,
                         url = imageUrl,
+                        lowResUrl = lowResUrl,
                         topPick = topPick,
                         categoryDisplay = categoryDisplay,
                         todayWall = todayWall

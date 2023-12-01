@@ -31,12 +31,17 @@ class WallPaperRVAdapter(
 
         holder.textView.text = wallpaper.name
 
+        val thumbnailRequest = Glide
+            .with(context)
+            .load(wallpaper.lowResUrl)
+            .centerCrop()
+
         Glide.with(context)
             .load(wallpaper.url)
-            .placeholder(R.drawable.ic_image_thumbnail)
-            .optionalCenterCrop()
-            .thumbnail(0.1f)
+            .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
+            .thumbnail(thumbnailRequest)
+            .placeholder(R.drawable.ic_image_thumbnail)
             .into(holder.imageView)
 
         holder.itemView.setOnClickListener {

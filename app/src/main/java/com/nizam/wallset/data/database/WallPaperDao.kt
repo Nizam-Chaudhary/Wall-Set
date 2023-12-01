@@ -19,17 +19,14 @@ interface WallPaperDao {
     @Query("SELECT * FROM WallPaper WHERE category = :category")
     fun getWallPaperByCategories(category: String) : LiveData<List<WallPaper>>
 
-    @Query("SELECT category, url FROM WallPaper WHERE categoryDisplay = 1")
+    @Query("SELECT category, url, lowResUrl FROM WallPaper WHERE categoryDisplay = 1")
     fun getCategoryItems(): LiveData<List<CategoryItem>>
 
-    @Query("SELECT url FROM WallPaper WHERE todayWall = 1")
-    fun getTodayWall() : String
+    @Query("SELECT url, lowResUrl FROM WallPaper ORDER BY RANDOM() LIMIT 5")
+    fun getRecommendationWalls(): List<ImageItem>
 
-    @Query("SELECT url FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM() LIMIT 4")
-    fun getFourTopPicks() : MutableList<String>
-
-    @Query("SELECT url FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM()")
-    fun getTopPicks() : LiveData<List<String>>
+    @Query("SELECT url, lowResUrl FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM()")
+    fun getTopPicks() : LiveData<List<ImageItem>>
 
     @Query("SELECT url FROM WallPaper ORDER BY RANDOM()")
     fun getAllImages() : LiveData<List<String>>

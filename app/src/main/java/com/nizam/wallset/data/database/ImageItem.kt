@@ -1,7 +1,6 @@
 package com.nizam.wallset.data.database
 
-data class CategoryItem(
-    val category: String,
+data class ImageItem(
     val url: String,
     val lowResUrl: String
 )

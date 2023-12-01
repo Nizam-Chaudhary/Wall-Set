@@ -10,6 +10,7 @@ data class WallPaper(
     val category: String,
     @PrimaryKey
     val url: String,
+    val lowResUrl: String,
     val topPick: Boolean,
     val categoryDisplay: Boolean,
     val todayWall: Boolean

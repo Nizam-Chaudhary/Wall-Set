@@ -22,9 +22,7 @@ class WallPaperRepository(
 
     fun getCategoryItems() = database.getWallPaperDao().getCategoryItems()
 
-    fun getTodayWall() = database.getWallPaperDao().getTodayWall()
-
-    fun getFourTopPicks() = database.getWallPaperDao().getFourTopPicks()
+    fun getRecommendationWalls() = database.getWallPaperDao().getRecommendationWalls()
 
     fun getTopPicks() = database.getWallPaperDao().getTopPicks()
 

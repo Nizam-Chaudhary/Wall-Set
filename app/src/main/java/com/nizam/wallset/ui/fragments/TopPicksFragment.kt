@@ -17,6 +17,7 @@ import com.nizam.wallset.ui.adapters.RecyclerPagerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 class TopPicksFragment : Fragment() {
@@ -45,19 +46,10 @@ class TopPicksFragment : Fragment() {
             this.adapter = recommendationPagerAdapter
         }
 
-        var topPickUrls = mutableListOf<String>()
-
         CoroutineScope(Dispatchers.IO).launch {
-            val url = viewModel.getTodayWall()
-            topPickUrls = viewModel.getFourTopPicks()
-            topPickUrls.add(2, url)
-        }
-
-        CoroutineScope(Dispatchers.Main).launch {
-            if(topPickUrls.isNotEmpty()) {
-                recommendationPagerAdapter.imagesUrl = topPickUrls
+            recommendationPagerAdapter.imageItems = viewModel.getRecommendationWalls()
+            withContext(Dispatchers.Main) {
                 recommendationPagerAdapter.notifyDataSetChanged()
-                binding.vp2Recommendation.currentItem = 2
                 binding.wormDotsIndicator.attachTo(binding.vp2Recommendation)
             }
         }
@@ -76,20 +68,8 @@ class TopPicksFragment : Fragment() {
         }
 
         viewModel.getTopPicks().observe(viewLifecycleOwner) {
-            topPicksAdapter.imagesUrl = it
+            topPicksAdapter.imageItems = it
             topPicksAdapter.notifyDataSetChanged()
         }
-
-        /*val browseAdapter = RecyclerPagerAdapter(emptyList(), requireContext())
-
-        binding.rvBrowse.apply {
-            this.layoutManager = LinearLayoutManager(requireContext())
-            this.adapter = browseAdapter
-        }
-
-        viewModel.getAllImages().observe(viewLifecycleOwner) {
-            browseAdapter.imagesUrl = it
-            browseAdapter.notifyDataSetChanged()
-        }*/
     }
 }
