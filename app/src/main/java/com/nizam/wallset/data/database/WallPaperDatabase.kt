@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.database.entities.WallPaper
 
 @Database(
-    entities = [WallPaper::class],
+    entities = [WallPaper::class, Favorite::class],
     version = 1
 )
 abstract class WallPaperDatabase : RoomDatabase() {
