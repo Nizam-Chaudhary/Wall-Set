@@ -6,19 +6,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nizam.wallset.ui.fragments.CategoriesFragment
 import com.nizam.wallset.ui.fragments.TopPicksFragment
+import com.nizam.wallset.ui.fragments.WallPapersFragment
 
 class MainViewPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return 2
+        return 3
     }
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> CategoriesFragment()
             1 -> TopPicksFragment()
+            2 -> WallPapersFragment()
             else -> throw(IllegalArgumentException("Invalid Position"))
         }
     }
