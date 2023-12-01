@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.nizam.wallset.R
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.FragmentTopPicksBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
+import com.nizam.wallset.ui.adapters.AllWallPapersRVAdapter
 import com.nizam.wallset.ui.adapters.RecyclerPagerAdapter
 import kotlin.math.abs
 
@@ -54,10 +55,10 @@ class TopPicksFragment : Fragment() {
             page.scaleY = 1 - absPosition / 2
         }
 
-        val topPicksAdapter = RecyclerPagerAdapter(emptyList(), requireContext())
+        val topPicksAdapter = AllWallPapersRVAdapter(emptyList(), requireContext())
 
         binding.rvTopPicks.apply {
-            this.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            this.layoutManager = GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)
             this.adapter = topPicksAdapter
         }
 
