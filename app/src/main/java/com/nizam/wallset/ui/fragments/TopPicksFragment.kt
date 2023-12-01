@@ -14,10 +14,6 @@ import com.nizam.wallset.databinding.FragmentTopPicksBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
 import com.nizam.wallset.ui.adapters.RecyclerPagerAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlin.math.abs
 
 class TopPicksFragment : Fragment() {
@@ -46,12 +42,10 @@ class TopPicksFragment : Fragment() {
             this.adapter = recommendationPagerAdapter
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            recommendationPagerAdapter.imageItems = viewModel.getRecommendationWalls()
-            withContext(Dispatchers.Main) {
-                recommendationPagerAdapter.notifyDataSetChanged()
-                binding.wormDotsIndicator.attachTo(binding.vp2Recommendation)
-            }
+        viewModel.getRecommendationWalls().observe(viewLifecycleOwner) {
+            recommendationPagerAdapter.imageItems = it
+            recommendationPagerAdapter.notifyDataSetChanged()
+            binding.wormDotsIndicator.attachTo(binding.vp2Recommendation)
         }
 
         binding.vp2Recommendation.setPageTransformer { page, position ->

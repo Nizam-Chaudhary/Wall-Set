@@ -23,7 +23,7 @@ interface WallPaperDao {
     fun getCategoryItems(): LiveData<List<CategoryItem>>
 
     @Query("SELECT url, lowResUrl FROM WallPaper ORDER BY RANDOM() LIMIT 5")
-    fun getRecommendationWalls(): List<ImageItem>
+    fun getRecommendationWalls(): LiveData<List<ImageItem>>
 
     @Query("SELECT url, lowResUrl FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM()")
     fun getTopPicks() : LiveData<List<ImageItem>>
