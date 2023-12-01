@@ -13,6 +13,7 @@ import com.nizam.wallset.data.database.entities.WallPaper
 )
 abstract class WallPaperDatabase : RoomDatabase() {
     abstract fun getWallPaperDao() : WallPaperDao
+    abstract fun getFavoriteDao() : FavoriteDao
 
     companion object {
         @Volatile

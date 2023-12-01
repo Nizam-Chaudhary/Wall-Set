@@ -1,6 +1,7 @@
 package com.nizam.wallset.data.repositories
 
 import com.nizam.wallset.data.database.WallPaperDatabase
+import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.database.entities.WallPaper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,6 +28,12 @@ class WallPaperRepository(
     fun getTopPicks() = database.getWallPaperDao().getTopPicks()
 
     fun getAllImages() = database.getWallPaperDao().getAllImages()
+
+    suspend fun upsert(favorite: Favorite) = database.getFavoriteDao().upsert(favorite)
+
+    suspend fun delete(favorite: Favorite) = database.getFavoriteDao().delete(favorite)
+
+    fun getAllFavorites() = database.getFavoriteDao().getAllFavorites()
 
     suspend fun downloadAndProcessJsonArray(url: String): JSONArray {
         return withContext(Dispatchers.IO) {

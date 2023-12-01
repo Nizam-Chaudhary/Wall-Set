@@ -3,6 +3,7 @@ package com.nizam.wallset.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.nizam.wallset.data.database.SharedPreferences
+import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.database.entities.WallPaper
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import kotlinx.coroutines.CoroutineScope
@@ -75,4 +76,14 @@ class MainViewModel (
             }
         }
     }
+
+    fun upsert(favorite: Favorite) = CoroutineScope(Dispatchers.IO).launch {
+        repository.upsert(favorite)
+    }
+
+    fun delete(favorite: Favorite) = CoroutineScope(Dispatchers.IO).launch {
+        repository.delete(favorite)
+    }
+
+    fun getAllFavorites() = repository.getAllFavorites()
 }
