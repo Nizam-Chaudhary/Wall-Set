@@ -12,4 +12,8 @@
         android:id="@+id/wallPaper"
         android:icon="@drawable/ic_image_thumbnail"
         android:title="WallPapers" />
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_favorite"
+        android:title="Favorites" />
 </menu>
