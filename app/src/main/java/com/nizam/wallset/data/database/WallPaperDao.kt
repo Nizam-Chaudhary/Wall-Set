@@ -16,8 +16,8 @@ interface WallPaperDao {
     @Query("Delete From wallpaper")
     suspend fun delete()
 
-    @Query("SELECT * FROM WallPaper WHERE category = :category")
-    fun getWallPaperByCategories(category: String) : LiveData<List<WallPaper>>
+    @Query("SELECT url, lowResUrl FROM WallPaper WHERE category = :category")
+    fun getWallPaperByCategories(category: String) : LiveData<List<ImageItem>>
 
     @Query("SELECT category, url, lowResUrl FROM WallPaper WHERE categoryDisplay = 1")
     fun getCategoryItems(): LiveData<List<CategoryItem>>

@@ -13,7 +13,7 @@ import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.FragmentWallPapersBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
-import com.nizam.wallset.ui.adapters.AllWallPapersRVAdapter
+import com.nizam.wallset.ui.adapters.WallPapersRVAdapter
 
 class WallPapersFragment : Fragment() {
 
@@ -23,7 +23,7 @@ class WallPapersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_wall_papers, container, false)
         binding = FragmentWallPapersBinding.bind(view)
         val database = WallPaperDatabase(requireContext())
@@ -36,7 +36,7 @@ class WallPapersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val wallPapersAdapter = AllWallPapersRVAdapter(emptyList(), requireContext())
+        val wallPapersAdapter = WallPapersRVAdapter(emptyList(), requireContext())
 
         binding.rvWallPapers.apply {
             this.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)

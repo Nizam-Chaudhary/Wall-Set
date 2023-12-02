@@ -12,10 +12,10 @@ import com.nizam.wallset.data.database.ImageItem
 import com.nizam.wallset.databinding.WallpaperImageItemBinding
 import com.nizam.wallset.ui.SetWallPaperActivity
 
-class AllWallPapersRVAdapter(
+class WallPapersRVAdapter(
     var imageItems: List<ImageItem>,
     private val context: Context) :
-    RecyclerView.Adapter<AllWallPapersRVAdapter.WallPapersViewHolder>() {
+    RecyclerView.Adapter<WallPapersRVAdapter.WallPapersViewHolder>() {
 
         inner class WallPapersViewHolder(view: WallpaperImageItemBinding) : RecyclerView.ViewHolder(view.root) {
             val imageView = view.imageView

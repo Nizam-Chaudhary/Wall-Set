@@ -13,8 +13,8 @@ import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.FragmentTopPicksBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
-import com.nizam.wallset.ui.adapters.AllWallPapersRVAdapter
 import com.nizam.wallset.ui.adapters.RecyclerPagerAdapter
+import com.nizam.wallset.ui.adapters.WallPapersRVAdapter
 import kotlin.math.abs
 
 class TopPicksFragment : Fragment() {
@@ -55,7 +55,7 @@ class TopPicksFragment : Fragment() {
             page.scaleY = 1 - absPosition / 2
         }
 
-        val topPicksAdapter = AllWallPapersRVAdapter(emptyList(), requireContext())
+        val topPicksAdapter = WallPapersRVAdapter(emptyList(), requireContext())
 
         binding.rvTopPicks.apply {
             this.layoutManager = GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)

@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> binding.vp2Main.currentItem = 1
                 R.id.category -> binding.vp2Main.currentItem = 0
                 R.id.wallPaper -> binding.vp2Main.currentItem = 2
+                R.id.favorites -> binding.vp2Main.currentItem = 3
             }
             return@setOnItemSelectedListener true
         }
