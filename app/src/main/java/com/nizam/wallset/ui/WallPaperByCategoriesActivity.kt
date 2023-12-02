@@ -25,7 +25,7 @@ class WallPaperByCategoriesActivity : AppCompatActivity() {
         val factory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        val adapter = WallPapersRVAdapter(emptyList(), this@WallPaperByCategoriesActivity)
+        val adapter = WallPapersRVAdapter(emptyList(), viewModel, this@WallPaperByCategoriesActivity)
 
         binding.recyclerView.apply {
             this.adapter = adapter

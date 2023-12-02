@@ -35,6 +35,8 @@ class WallPaperRepository(
 
     fun getAllFavorites() = database.getFavoriteDao().getAllFavorites()
 
+    fun isExists(url: String) = database.getFavoriteDao().isExists(url)
+
     suspend fun downloadAndProcessJsonArray(url: String): JSONArray {
         return withContext(Dispatchers.IO) {
             val jsonResponse = downloadJson(url)

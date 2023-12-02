@@ -17,4 +17,7 @@ interface FavoriteDao{
 
     @Query("SELECT * FROM Favorite ORDER BY RANDOM()")
     fun getAllFavorites() : LiveData<List<Favorite>>
+
+    @Query("SELECT EXISTS(SELECT * FROM Favorite WHERE url = :url)")
+    fun isExists(url: String): Boolean
 }

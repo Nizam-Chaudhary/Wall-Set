@@ -36,7 +36,7 @@ class WallPapersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val wallPapersAdapter = WallPapersRVAdapter(emptyList(), requireContext())
+        val wallPapersAdapter = WallPapersRVAdapter(emptyList(), viewModel, requireContext())
 
         binding.rvWallPapers.apply {
             this.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)

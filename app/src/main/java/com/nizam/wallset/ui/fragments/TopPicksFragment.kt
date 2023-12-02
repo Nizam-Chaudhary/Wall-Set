@@ -55,7 +55,7 @@ class TopPicksFragment : Fragment() {
             page.scaleY = 1 - absPosition / 2
         }
 
-        val topPicksAdapter = WallPapersRVAdapter(emptyList(), requireContext())
+        val topPicksAdapter = WallPapersRVAdapter(emptyList(), viewModel,requireContext())
 
         binding.rvTopPicks.apply {
             this.layoutManager = GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)

@@ -9,6 +9,7 @@ import com.nizam.wallset.data.repositories.WallPaperRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import java.util.Calendar
 
@@ -86,4 +87,8 @@ class MainViewModel (
     }
 
     fun getAllFavorites() = repository.getAllFavorites()
+
+    suspend fun isExists(url: String) = withContext(Dispatchers.IO) {
+        repository.isExists(url)
+    }
 }
