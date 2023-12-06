@@ -76,18 +76,14 @@ class WallPapersRVAdapter(
             }
 
             holder.btnFavorites.setOnClickListener {
-
-                var isExists = false
                 CoroutineScope(Dispatchers.IO).launch {
-                    isExists = viewModel.isExists(imageItem.url)
-                }
-
-                if(isExists) {
-                    viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
-                    holder.btnFavorites.setImageResource(R.drawable.ic_favorite)
-                } else {
-                    viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
-                    holder.btnFavorites.setImageResource(R.drawable.ic_favorite_filled)
+                    if(viewModel.isExists(imageItem.url)) {
+                        viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
+                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite)
+                    } else {
+                        viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
+                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite_filled)
+                    }
                 }
             }
         }
