@@ -1,7 +1,10 @@
 package com.nizam.wallset.ui
 
 import android.app.WallpaperManager
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
@@ -22,6 +25,11 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        val attrib = window.attributes
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            attrib.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+
         val url = intent.getStringExtra("url")
 
         url?.let {
@@ -34,11 +42,12 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         binding.fabSetOnBothScreen.setOnClickListener {
            CoroutineScope(Dispatchers.Default).launch {
-               val bitmap = binding.imageView.drawable.toBitmap()
+               val bitmap = getBitmap()
                val wallPaperManager = WallpaperManager.getInstance(applicationContext)
 
                try {
                    wallPaperManager.setBitmap(bitmap)
+                   moveTaskToBack(true)
                } catch (e: Exception) {
                    e.printStackTrace()
                }
@@ -47,11 +56,12 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         binding.fabSetOnLockScreen.setOnClickListener {
            CoroutineScope(Dispatchers.Default).launch {
-               val bitmap = binding.imageView.drawable.toBitmap()
+               val bitmap = getBitmap()
                val wallPaperManager = WallpaperManager.getInstance(applicationContext)
 
                try {
                    wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_LOCK)
+                   moveTaskToBack(true)
                } catch (e: Exception) {
                    e.printStackTrace()
                }
@@ -60,16 +70,20 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         binding.fabSetOnHomeScreen.setOnClickListener {
             CoroutineScope(Dispatchers.Default).launch {
-
-                val bitmap = binding.imageView.drawable.toBitmap()
+                val bitmap = getBitmap()
                 val wallPaperManager = WallpaperManager.getInstance(applicationContext)
 
                 try {
                     wallPaperManager.setBitmap(bitmap, null, false, WallpaperManager.FLAG_SYSTEM)
+                    moveTaskToBack(true)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
         }
+    }
+
+    private fun getBitmap(): Bitmap {
+        return binding.imageView.drawable.toBitmap()
     }
 }
