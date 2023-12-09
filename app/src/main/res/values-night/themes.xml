@@ -1,6 +1,8 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.WallSet" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#00FFFFFF</item>
+        <item name="android:colorBackground">@color/black</item>
     </style>
 
     <style name="Theme.FullScreen" parent="Theme.Material3.DayNight.NoActionBar" >
