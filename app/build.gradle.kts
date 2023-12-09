@@ -56,7 +56,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Room
-    val roomVersion = "2.6.0"
+    val roomVersion = "2.6.1"
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
@@ -71,4 +71,6 @@ dependencies {
 
     // DotsIndicator
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+    implementation("androidx.palette:palette-ktx:1.0.0")
 }

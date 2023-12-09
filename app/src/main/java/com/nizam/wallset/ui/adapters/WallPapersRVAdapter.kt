@@ -2,11 +2,21 @@ package com.nizam.wallset.ui.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.nizam.wallset.R
 import com.nizam.wallset.data.database.ImageItem
 import com.nizam.wallset.data.database.entities.Favorite
@@ -17,6 +27,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class WallPapersRVAdapter(
     var imageItems: List<ImageItem>,
@@ -43,30 +54,74 @@ class WallPapersRVAdapter(
         override fun onBindViewHolder(holder: WallPapersViewHolder, position: Int) {
             val imageItem = imageItems[position]
 
-            CoroutineScope(Dispatchers.IO).launch {
-                if (viewModel.isExists(imageItem.url)) {
-                    withContext(Dispatchers.Main) {
-                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite_filled)
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite)
-                    }
-                }
-            }
+            val favoriteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
+            val filledFavoriteDrawable =
+                ContextCompat.getDrawable(context, R.drawable.ic_favorite_filled)
 
             val thumbnailRequest = Glide
                 .with(context)
                 .load(imageItem.lowResUrl)
                 .centerCrop()
+                .addListener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        // Use coroutines for Palette generation
+                        CoroutineScope(Dispatchers.Main).launch {
+                            val bitmap = (resource as BitmapDrawable).bitmap
+                            val palette = Palette.from(bitmap).generate()
+                            val dominantColor = palette.getDominantColor(Color.TRANSPARENT)
+
+                            val tintedColor = ColorUtils.blendARGB(
+                                dominantColor,
+                                Color.WHITE,
+                                0.3f
+                            )
+
+                            // Assuming favoriteDrawable and filledFavoriteDrawable are Drawables
+                            favoriteDrawable?.setTint(tintedColor)
+                            filledFavoriteDrawable?.setTint(tintedColor)
+                        }
+
+                        return false
+                    }
+                })
 
             Glide.with(context)
                 .load(imageItem.url)
+                .thumbnail(thumbnailRequest)
                 .placeholder(R.drawable.ic_image_thumbnail)
                 .centerCrop()
-                .thumbnail(thumbnailRequest)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+                if (viewModel.isExists(imageItem.url)) {
+                    withContext(Dispatchers.Main) {
+                        holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        holder.btnFavorites.setImageDrawable(favoriteDrawable)
+                    }
+                }
+            }
+
 
             holder.itemView.setOnClickListener {
                 Intent(context, SetWallPaperActivity::class.java).apply {
@@ -79,10 +134,10 @@ class WallPapersRVAdapter(
                 CoroutineScope(Dispatchers.IO).launch {
                     if(viewModel.isExists(imageItem.url)) {
                         viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
-                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite)
+                        holder.btnFavorites.setImageDrawable(favoriteDrawable)
                     } else {
                         viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
-                        holder.btnFavorites.setImageResource(R.drawable.ic_favorite_filled)
+                        holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
                     }
                 }
             }
