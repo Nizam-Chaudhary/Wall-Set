@@ -1,8 +1,12 @@
 <resources>
     <style name="Base.Theme.WallSet" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#6A6161</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
-    <style name="Theme.WallSet" parent="Base.Theme.WallSet" />
+    <style name="Theme.WallSet" parent="Base.Theme.WallSet">
+
+    </style>
 
     <style name="Theme.FullScreen" parent="Theme.Material3.DayNight.NoActionBar" >
         <item name="android:windowFullscreen">true</item>
