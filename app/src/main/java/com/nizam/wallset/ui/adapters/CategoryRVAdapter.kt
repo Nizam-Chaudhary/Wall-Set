@@ -94,7 +94,7 @@ class CategoryRVAdapter(
         Glide.with(context)
             .load(categoryItem.url)
             .thumbnail(thumbnailRequest)
-            .placeholder(R.drawable.ic_image_thumbnail)
+            .placeholder(R.drawable.ic_wallpaper)
             .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)

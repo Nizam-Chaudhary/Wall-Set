@@ -43,7 +43,7 @@ class RecyclerPagerAdapter(
 
         Glide.with(context)
             .load(imageItem.url)
-            .placeholder(R.drawable.ic_image_thumbnail)
+            .placeholder(R.drawable.ic_wallpaper)
             .centerCrop()
             .thumbnail(thumbnailRequest)
             .transition(DrawableTransitionOptions.withCrossFade())

@@ -104,7 +104,7 @@ class WallPapersRVAdapter(
             Glide.with(context)
                 .load(imageItem.url)
                 .thumbnail(thumbnailRequest)
-                .placeholder(R.drawable.ic_image_thumbnail)
+                .placeholder(R.drawable.ic_wallpaper)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
