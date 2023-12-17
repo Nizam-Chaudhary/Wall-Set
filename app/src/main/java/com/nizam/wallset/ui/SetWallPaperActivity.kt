@@ -16,6 +16,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -63,6 +64,7 @@ class SetWallPaperActivity : AppCompatActivity() {
                 .centerCrop()
                 .placeholder(circularProgress)
                 .thumbnail()
+                .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
