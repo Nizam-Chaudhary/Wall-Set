@@ -73,4 +73,6 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.0")
 
     implementation("androidx.palette:palette-ktx:1.0.0")
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }

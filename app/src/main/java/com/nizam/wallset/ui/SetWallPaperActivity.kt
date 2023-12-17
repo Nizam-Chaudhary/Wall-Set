@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -51,10 +52,17 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         val url = intent.getStringExtra("url")
 
+        val circularProgress = CircularProgressDrawable(this)
+        circularProgress.strokeWidth = 7f
+        circularProgress.centerRadius = 40f
+        circularProgress.start()
+
         url?.let {
             Glide.with(this)
                 .load(url)
                 .centerCrop()
+                .placeholder(circularProgress)
+                .thumbnail()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
