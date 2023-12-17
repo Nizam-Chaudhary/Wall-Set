@@ -110,18 +110,17 @@ class SetWallPaperActivity : AppCompatActivity() {
 
             MaterialAlertDialogBuilder(this)
                 .setTitle("Apply WallPaper")
-                .setBackground(materialAlertDialogDrawable)
-                .setNeutralButton("Cancel") { dialog, which ->
+                .setNeutralButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
                 }
-                .setPositiveButton("Apply") { dialog, _ ->
+                .setPositiveButton("Apply") { _, _ ->
                     when (checkedItem) {
                         0 -> setWallPaper(getBitmap(), ApplyWallPaperTo.HOME_SCREEN.value)
                         1 -> setWallPaper(getBitmap(), ApplyWallPaperTo.LOCK_SCREEN.value)
                         2 -> setWallPaper(getBitmap(), ApplyWallPaperTo.ON_BOTH_SCREEN.value)
                     }
                 }
-                .setSingleChoiceItems(singleItems, checkedItem) { dialog, selectedOption ->
+                .setSingleChoiceItems(singleItems, checkedItem) { _, selectedOption ->
                     checkedItem = selectedOption
                 }
                 .show()
