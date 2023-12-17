@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -101,10 +102,15 @@ class WallPapersRVAdapter(
                     }
                 })
 
+            val circularProgress = CircularProgressDrawable(context)
+            circularProgress.strokeWidth = 7f
+            circularProgress.centerRadius = 40f
+            circularProgress.start()
+
             Glide.with(context)
                 .load(imageItem.url)
                 .thumbnail(thumbnailRequest)
-                .placeholder(R.drawable.ic_wallpaper)
+                .placeholder(circularProgress)
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
