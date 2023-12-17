@@ -3,6 +3,7 @@ package com.nizam.wallset.ui
 import android.app.WallpaperManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -56,6 +57,12 @@ class SetWallPaperActivity : AppCompatActivity() {
         val circularProgress = CircularProgressDrawable(this)
         circularProgress.strokeWidth = 7f
         circularProgress.centerRadius = 40f
+        circularProgress.setColorFilter(
+            ContextCompat.getColor(
+                this@SetWallPaperActivity,
+                R.color.circular_progress
+            ), PorterDuff.Mode.SRC_IN
+        )
         circularProgress.start()
 
         url?.let {

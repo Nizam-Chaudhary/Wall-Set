@@ -3,6 +3,7 @@ package com.nizam.wallset.ui.adapters
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -105,6 +106,12 @@ class WallPapersRVAdapter(
             val circularProgress = CircularProgressDrawable(context)
             circularProgress.strokeWidth = 7f
             circularProgress.centerRadius = 40f
+            circularProgress.setColorFilter(
+                ContextCompat.getColor(
+                    context,
+                    R.color.circular_progress
+                ), PorterDuff.Mode.SRC_IN
+            )
             circularProgress.start()
 
             Glide.with(context)
