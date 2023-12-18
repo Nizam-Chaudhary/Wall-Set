@@ -2,10 +2,13 @@ package com.nizam.wallset.ui.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nizam.wallset.R
@@ -41,9 +44,17 @@ class RecyclerPagerAdapter(
             .load(imageItem.lowResUrl)
             .centerCrop()
 
+        val circularProgress = CircularProgressDrawable(context)
+        circularProgress.strokeWidth = 7f
+        circularProgress.centerRadius = 40f
+        circularProgress.setColorFilter(
+            ContextCompat.getColor(context, R.color.circular_progress), PorterDuff.Mode.SRC_IN
+        )
+        circularProgress.start()
+
         Glide.with(context)
             .load(imageItem.url)
-            .placeholder(R.drawable.ic_wallpaper)
+            .placeholder(circularProgress)
             .centerCrop()
             .thumbnail(thumbnailRequest)
             .transition(DrawableTransitionOptions.withCrossFade())
