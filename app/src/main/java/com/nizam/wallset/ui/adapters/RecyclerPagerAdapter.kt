@@ -16,6 +16,7 @@ import com.nizam.wallset.R
 import com.nizam.wallset.data.database.ImageItem
 import com.nizam.wallset.databinding.ImageItemBinding
 import com.nizam.wallset.ui.SetWallPaperActivity
+import com.nizam.wallset.ui.getCircularProgressDrawable
 
 class RecyclerPagerAdapter(
     var imageItems: List<ImageItem>,
@@ -57,7 +58,7 @@ class RecyclerPagerAdapter(
         Glide.with(context)
             .load(imageItem.url)
             .priority(Priority.LOW)
-            .placeholder(circularProgress)
+            .placeholder(getCircularProgressDrawable(context))
             .centerCrop()
             .thumbnail(thumbnailRequest)
             .transition(DrawableTransitionOptions.withCrossFade())

@@ -25,6 +25,7 @@ import com.nizam.wallset.R
 import com.nizam.wallset.data.database.CategoryItem
 import com.nizam.wallset.databinding.CategoryItemBinding
 import com.nizam.wallset.ui.WallPaperByCategoriesActivity
+import com.nizam.wallset.ui.getCircularProgressDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -109,7 +110,7 @@ class CategoryRVAdapter(
             .load(categoryItem.url)
             .priority(Priority.LOW)
             .thumbnail(thumbnailRequest)
-            .placeholder(circularProgress)
+            .placeholder(getCircularProgressDrawable(context))
             .centerCrop()
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)

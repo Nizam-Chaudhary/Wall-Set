@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
@@ -29,6 +30,7 @@ import com.nizam.wallset.databinding.ActivitySetWallPaperBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SetWallPaperActivity : AppCompatActivity() {
 
@@ -69,7 +71,7 @@ class SetWallPaperActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(url)
                 .centerCrop()
-                .placeholder(circularProgress)
+                .placeholder(getCircularProgressDrawable(this))
                 .thumbnail()
                 .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
@@ -157,7 +159,9 @@ class SetWallPaperActivity : AppCompatActivity() {
                 } else {
                     wallPaperManager.setBitmap(bitmap, null, false, where)
                 }
-                moveTaskToBack(true)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@SetWallPaperActivity, "Applied", Toast.LENGTH_LONG).show()
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }

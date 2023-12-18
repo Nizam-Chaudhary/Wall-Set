@@ -3,7 +3,6 @@ package com.nizam.wallset.ui.adapters
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -26,6 +24,7 @@ import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.databinding.WallpaperImageItemBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.SetWallPaperActivity
+import com.nizam.wallset.ui.getCircularProgressDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -105,22 +104,11 @@ class WallPapersRVAdapter(
                     }
                 })
 
-            val circularProgress = CircularProgressDrawable(context)
-            circularProgress.strokeWidth = 7f
-            circularProgress.centerRadius = 40f
-            circularProgress.setColorFilter(
-                ContextCompat.getColor(
-                    context,
-                    R.color.circular_progress
-                ), PorterDuff.Mode.SRC_IN
-            )
-            circularProgress.start()
-
             Glide.with(context)
                 .load(imageItem.url)
                 .priority(Priority.LOW)
                 .thumbnail(thumbnailRequest)
-                .placeholder(circularProgress)
+                .placeholder(getCircularProgressDrawable(context))
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
