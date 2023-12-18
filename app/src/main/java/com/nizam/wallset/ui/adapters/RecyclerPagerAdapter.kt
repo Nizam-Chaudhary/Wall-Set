@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nizam.wallset.R
 import com.nizam.wallset.data.database.ImageItem
@@ -42,6 +43,7 @@ class RecyclerPagerAdapter(
         val thumbnailRequest = Glide
             .with(context)
             .load(imageItem.lowResUrl)
+            .priority(Priority.HIGH)
             .centerCrop()
 
         val circularProgress = CircularProgressDrawable(context)
@@ -54,6 +56,7 @@ class RecyclerPagerAdapter(
 
         Glide.with(context)
             .load(imageItem.url)
+            .priority(Priority.LOW)
             .placeholder(circularProgress)
             .centerCrop()
             .thumbnail(thumbnailRequest)

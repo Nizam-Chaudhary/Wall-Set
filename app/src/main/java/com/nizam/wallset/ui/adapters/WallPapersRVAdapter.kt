@@ -14,6 +14,7 @@ import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -63,6 +64,7 @@ class WallPapersRVAdapter(
             val thumbnailRequest = Glide
                 .with(context)
                 .load(imageItem.lowResUrl)
+                .priority(Priority.HIGH)
                 .centerCrop()
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
@@ -116,6 +118,7 @@ class WallPapersRVAdapter(
 
             Glide.with(context)
                 .load(imageItem.url)
+                .priority(Priority.LOW)
                 .thumbnail(thumbnailRequest)
                 .placeholder(circularProgress)
                 .centerCrop()
