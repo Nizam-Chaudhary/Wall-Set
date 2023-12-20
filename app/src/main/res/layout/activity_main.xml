@@ -5,11 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
-    
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp2Main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -18,8 +22,22 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/bottom_navigation_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/networkStatus"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_view_menu" />
+
+    <TextView
+        android:id="@+id/networkStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Connection"
+        android:visibility="gone"
+        android:textColor="@color/text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

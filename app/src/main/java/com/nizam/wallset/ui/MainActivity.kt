@@ -1,6 +1,9 @@
 package com.nizam.wallset.ui
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +13,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.nizam.wallset.R
+import com.nizam.wallset.data.InternetChecker
 import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
@@ -17,7 +21,9 @@ import com.nizam.wallset.databinding.ActivityMainBinding
 import com.nizam.wallset.ui.adapters.MainViewPagerAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
@@ -53,11 +59,37 @@ class MainActivity : AppCompatActivity() {
             this.isUserInputEnabled = false
         }
 
+        CoroutineScope(Dispatchers.IO).launch {
+            while (true) {
+                val networkStatus = InternetChecker(this@MainActivity).isNetworkAvailable()
+
+                if (!networkStatus)
+                    withContext(Dispatchers.Main) {
+                        val fadeIn = ObjectAnimator.ofFloat(binding.networkStatus, "alpha", 0f, 1f)
+                        fadeIn.duration = 1000
+                        fadeIn.interpolator = AccelerateDecelerateInterpolator()
+
+                        binding.networkStatus.visibility = View.VISIBLE
+                        fadeIn.start()
+                    }
+
+                if (networkStatus)
+                    withContext(Dispatchers.Main) {
+                        val fadeOut = ObjectAnimator.ofFloat(binding.networkStatus, "alpha", 1f, 0f)
+                        fadeOut.duration = 1000
+                        fadeOut.interpolator = AccelerateDecelerateInterpolator()
+
+                        binding.networkStatus.visibility = View.GONE
+                        fadeOut.start()
+                    }
+                delay(3000L)
+            }
+        }
 
         binding.bottomNavigationView.selectedItemId = R.id.home
 
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.home -> binding.vp2Main.currentItem = 1
                 R.id.category -> binding.vp2Main.currentItem = 0
                 R.id.wallPaper -> binding.vp2Main.currentItem = 2
