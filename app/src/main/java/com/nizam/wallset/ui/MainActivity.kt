@@ -28,9 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         FirebaseApp.initializeApp(this)
-        installSplashScreen().setKeepOnScreenCondition() {
-            true
-        }
+        installSplashScreen()
 
         super.onCreate(savedInstanceState)
 
