@@ -12,7 +12,6 @@ import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -60,11 +59,12 @@ class WallPapersRVAdapter(
             val filledFavoriteDrawable =
                 ContextCompat.getDrawable(context, R.drawable.ic_favorite_filled)
 
-            val thumbnailRequest = Glide
+            Glide
                 .with(context)
                 .load(imageItem.lowResUrl)
-                .priority(Priority.HIGH)
+                .placeholder(getCircularProgressDrawable(context))
                 .centerCrop()
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
@@ -103,16 +103,7 @@ class WallPapersRVAdapter(
                         return false
                     }
                 })
-
-            Glide.with(context)
-                .load(imageItem.url)
-                .priority(Priority.LOW)
-                .thumbnail(thumbnailRequest)
-                .placeholder(getCircularProgressDrawable(context))
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imageView)
-
 
             CoroutineScope(Dispatchers.IO).launch {
                 if (viewModel.isExists(imageItem.url)) {

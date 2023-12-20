@@ -3,25 +3,20 @@ package com.nizam.wallset.ui.adapters
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.nizam.wallset.R
 import com.nizam.wallset.data.database.CategoryItem
 import com.nizam.wallset.databinding.CategoryItemBinding
 import com.nizam.wallset.ui.WallPaperByCategoriesActivity
@@ -48,11 +43,11 @@ class CategoryRVAdapter(
 
         holder.textView.text = categoryItem.category
 
-        val thumbnailRequest = Glide
-            .with(context)
+        Glide.with(context)
             .load(categoryItem.lowResUrl)
-            .priority(Priority.HIGH)
+            .placeholder(getCircularProgressDrawable(context))
             .centerCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
             .addListener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -96,23 +91,6 @@ class CategoryRVAdapter(
                     return false
                 }
             })
-
-        val circularProgress = CircularProgressDrawable(context)
-        circularProgress.strokeWidth = 7f
-        circularProgress.centerRadius = 40f
-        circularProgress.setColorFilter(
-            ContextCompat.getColor(context, R.color.circular_progress),
-            PorterDuff.Mode.SRC_IN
-        )
-        circularProgress.start()
-
-        Glide.with(context)
-            .load(categoryItem.url)
-            .priority(Priority.LOW)
-            .thumbnail(thumbnailRequest)
-            .placeholder(getCircularProgressDrawable(context))
-            .centerCrop()
-            .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.imageView)
 
         holder.itemView.setOnClickListener {
