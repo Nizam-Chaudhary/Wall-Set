@@ -2,6 +2,7 @@ package com.nizam.wallset.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DataSnapshot
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         FirebaseApp.initializeApp(this)
+        installSplashScreen()
 
         super.onCreate(savedInstanceState)
 

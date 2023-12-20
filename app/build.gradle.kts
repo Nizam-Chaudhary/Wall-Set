@@ -44,7 +44,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-database:20.3.0")
     testImplementation("junit:junit:4.13.2")
@@ -72,7 +72,12 @@ dependencies {
     // DotsIndicator
     implementation("com.tbuonomo:dotsindicator:5.0")
 
+    // Palette
     implementation("androidx.palette:palette-ktx:1.0.0")
 
+    // Refresh Layout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+    // Splash Screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
