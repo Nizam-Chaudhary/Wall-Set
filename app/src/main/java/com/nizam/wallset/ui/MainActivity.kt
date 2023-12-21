@@ -1,6 +1,7 @@
 package com.nizam.wallset.ui
 
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -63,8 +64,11 @@ class MainActivity : AppCompatActivity() {
             while (true) {
                 val networkStatus = InternetChecker(this@MainActivity).isNetworkAvailable()
 
-                if (!networkStatus)
+                if (!networkStatus && binding.networkStatus.visibility == View.GONE)
                     withContext(Dispatchers.Main) {
+                        binding.networkStatus.text = "No Internet Available"
+                        binding.networkStatus.background.setTint(Color.RED)
+                        delay(3000L)
                         val fadeIn = ObjectAnimator.ofFloat(binding.networkStatus, "alpha", 0f, 1f)
                         fadeIn.duration = 1000
                         fadeIn.interpolator = AccelerateDecelerateInterpolator()
@@ -73,10 +77,13 @@ class MainActivity : AppCompatActivity() {
                         fadeIn.start()
                     }
 
-                if (networkStatus)
+                if (networkStatus && binding.networkStatus.visibility == View.VISIBLE)
                     withContext(Dispatchers.Main) {
+                        binding.networkStatus.text = "Internet Connection Available"
+                        binding.networkStatus.background.setTint(Color.GREEN)
+                        delay(3000L)
                         val fadeOut = ObjectAnimator.ofFloat(binding.networkStatus, "alpha", 1f, 0f)
-                        fadeOut.duration = 1000
+                        fadeOut.duration = 2000
                         fadeOut.interpolator = AccelerateDecelerateInterpolator()
 
                         binding.networkStatus.visibility = View.GONE
@@ -112,12 +119,14 @@ class MainActivity : AppCompatActivity() {
             val firebaseDatabase = FirebaseDatabase.getInstance()
             val myRef = firebaseDatabase.getReference("jsonUrl")
             myRef.addValueEventListener(object: ValueEventListener {
+                var urlOfJson = ""
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    viewModel.download(snapshot.value.toString(), this@MainActivity)
+                    urlOfJson = snapshot.value.toString()
+                    viewModel.download(urlOfJson, this@MainActivity)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    viewModel.download("https://ipfs.filebase.io/ipfs/QmRBLTkYv9BfnM18fzJ2hhpKbMWpGPp4aCU2nEMuNcgVn8", this@MainActivity)
+                    viewModel.download(urlOfJson, this@MainActivity)
                 }
             })
         }
