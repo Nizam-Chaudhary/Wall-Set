@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nizam.wallset.ui.fragments.CategoriesFragment
 import com.nizam.wallset.ui.fragments.FavoriteFragment
+import com.nizam.wallset.ui.fragments.SettingsFragment
 import com.nizam.wallset.ui.fragments.TopPicksFragment
 import com.nizam.wallset.ui.fragments.WallPapersFragment
 
@@ -14,7 +15,7 @@ class MainViewPagerAdapter(
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
-        return 4
+        return 5
     }
 
     override fun createFragment(position: Int): Fragment {
@@ -23,7 +24,8 @@ class MainViewPagerAdapter(
             1 -> TopPicksFragment()
             2 -> WallPapersFragment()
             3 -> FavoriteFragment()
-            else -> throw(IllegalArgumentException("Invalid Position"))
+            4 -> SettingsFragment()
+            else -> throw (IllegalArgumentException("Invalid Position"))
         }
     }
 }
