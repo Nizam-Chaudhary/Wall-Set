@@ -1,6 +1,7 @@
 package com.nizam.wallset.ui
 
 import android.animation.ObjectAnimator
+import android.app.Application
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         val database = WallPaperDatabase(this)
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository)
+        val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         CoroutineScope(Dispatchers.IO).launch {

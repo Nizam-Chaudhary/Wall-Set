@@ -1,5 +1,6 @@
 package com.nizam.wallset.ui.fragments
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.bind(view)
         val database = WallPaperDatabase(requireContext())
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository)
+        val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
         return binding.root
     }
@@ -34,9 +35,10 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toggleSlideShow.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked)
+            if (isChecked) {
                 binding.settingSetSlideShowTime.visibility = View.VISIBLE
-            else
+                viewModel.startWallPaperSlideShow()
+            } else
                 binding.settingSetSlideShowTime.visibility = View.GONE
         }
     }

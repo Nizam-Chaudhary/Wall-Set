@@ -64,4 +64,6 @@ class WallPaperRepository(
             urlConnection.disconnect()
         }
     }
+
+    fun getWallPaperForSlideShow() = database.getFavoriteDao().getWallPaperForSlideShow()
 }

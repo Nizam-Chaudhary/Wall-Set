@@ -1,5 +1,6 @@
 package com.nizam.wallset.ui
 
+import android.app.Application
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -22,7 +23,7 @@ class WallPaperByCategoriesActivity : AppCompatActivity() {
 
         val database = WallPaperDatabase(this)
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository)
+        val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         val adapter = WallPapersRVAdapter(emptyList(), viewModel, this@WallPaperByCategoriesActivity)

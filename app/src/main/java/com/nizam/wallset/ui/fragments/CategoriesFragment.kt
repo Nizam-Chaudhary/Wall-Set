@@ -1,5 +1,6 @@
 package com.nizam.wallset.ui.fragments
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,7 @@ class CategoriesFragment : Fragment() {
         binding = FragmentCategoriesBinding.bind(view)
         val database = WallPaperDatabase(requireContext())
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository)
+        val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this,factory)[MainViewModel::class.java]
         return binding.root
     }
