@@ -9,7 +9,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.nizam.wallset.SLIDE_SHOW_IMAGE_URLS
+import com.nizam.wallset.SLIDE_SHOW_IMAGE_URLS_KEY
 import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.database.entities.WallPaper
@@ -120,7 +120,7 @@ class MainViewModel(
 
             workManager.enqueueUniquePeriodicWork(
                 "Set SlideShow Image As wallPaper",
-                ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 changeWallPaperRequest
             )
         }
@@ -130,7 +130,7 @@ class MainViewModel(
 
         val builder = Data.Builder()
         builder.putStringArray(
-            SLIDE_SHOW_IMAGE_URLS,
+            SLIDE_SHOW_IMAGE_URLS_KEY,
             repository.getWallPaperForSlideShow()
         )
 
