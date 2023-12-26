@@ -109,7 +109,7 @@ class MainViewModel(
         CoroutineScope(Dispatchers.IO).launch {
             val inputData = createInputDataForWallpaper()
             val changeWallPaperRequest =
-                PeriodicWorkRequestBuilder<SlideShowWorker>(15L, TimeUnit.MINUTES)
+                PeriodicWorkRequestBuilder<SlideShowWorker>(1, TimeUnit.HOURS)
                     .setInputData(inputData)
                     .setConstraints(
                         Constraints(
