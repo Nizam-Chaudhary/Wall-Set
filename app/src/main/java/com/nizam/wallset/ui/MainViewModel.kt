@@ -3,11 +3,11 @@ package com.nizam.wallset.ui
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.work.Constraints
-import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.nizam.wallset.SLIDE_SHOW_IMAGE_URLS_KEY
 import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.repositories.WallPaperRepository
@@ -53,7 +53,8 @@ class MainViewModel(
 
     fun startWallPaperSlideShow() {
         CoroutineScope(Dispatchers.IO).launch {
-            val inputData = createInputDataForWallpaper()
+            val inputData =
+                workDataOf(SLIDE_SHOW_IMAGE_URLS_KEY to repository.getWallPaperForSlideShow())
             val changeWallPaperRequest =
                 PeriodicWorkRequestBuilder<SlideShowWorker>(1, TimeUnit.HOURS)
                     .setInputData(inputData)
@@ -70,18 +71,6 @@ class MainViewModel(
                 changeWallPaperRequest
             )
         }
-    }
-
-    private fun createInputDataForWallpaper(): Data {
-
-        val builder = Data.Builder()
-        builder.putStringArray(
-            SLIDE_SHOW_IMAGE_URLS_KEY,
-            repository.getWallPaperForSlideShow()
-        )
-
-        return builder.build()
-
     }
 
     fun startWorkerToLoadData() {
