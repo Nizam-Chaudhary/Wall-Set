@@ -10,13 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.FirebaseApp
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.nizam.wallset.R
 import com.nizam.wallset.data.InternetChecker
-import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.ActivityMainBinding
@@ -26,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,9 +43,7 @@ class MainActivity : AppCompatActivity() {
         val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        CoroutineScope(Dispatchers.IO).launch {
-            getUrlAndDownloadJSON()
-        }
+        viewModel.startWorkerToLoadData()
 
         val viewPagerAdapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
 
@@ -105,32 +97,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.settings -> binding.vp2Main.currentItem = 4
             }
             return@setOnItemSelectedListener true
-        }
-    }
-
-    private fun getUrlAndDownloadJSON() {
-        val sharedPreferences = SharedPreferences(this)
-        val toLoad = sharedPreferences.toLoad(
-            arrayOf(
-                Calendar.getInstance().get(Calendar.DATE),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.YEAR)
-            )
-        )
-        if(toLoad) {
-            val firebaseDatabase = FirebaseDatabase.getInstance()
-            val myRef = firebaseDatabase.getReference("jsonUrl")
-            myRef.addValueEventListener(object: ValueEventListener {
-                var urlOfJson = ""
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    urlOfJson = snapshot.value.toString()
-                    viewModel.download(urlOfJson, this@MainActivity)
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    viewModel.download(urlOfJson, this@MainActivity)
-                }
-            })
         }
     }
 }
