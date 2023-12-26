@@ -10,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.FirebaseApp
+import com.nizam.wallset.FRAGMENT_CATEGORIES
+import com.nizam.wallset.FRAGMENT_FAVORITES
+import com.nizam.wallset.FRAGMENT_HOME
+import com.nizam.wallset.FRAGMENT_SETTINGS
+import com.nizam.wallset.FRAGMENT_WALLPAPERS
 import com.nizam.wallset.R
 import com.nizam.wallset.data.InternetChecker
 import com.nizam.wallset.data.database.WallPaperDatabase
@@ -49,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.vp2Main.apply {
             this.adapter = viewPagerAdapter
-            this.currentItem = 1
+            this.currentItem = FRAGMENT_HOME
             this.isUserInputEnabled = false
         }
 
@@ -57,11 +62,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> binding.vp2Main.currentItem = 1
-                R.id.category -> binding.vp2Main.currentItem = 0
-                R.id.wallPaper -> binding.vp2Main.currentItem = 2
-                R.id.favorites -> binding.vp2Main.currentItem = 3
-                R.id.settings -> binding.vp2Main.currentItem = 4
+                R.id.home -> binding.vp2Main.currentItem = FRAGMENT_CATEGORIES
+                R.id.category -> binding.vp2Main.currentItem = FRAGMENT_HOME
+                R.id.wallPaper -> binding.vp2Main.currentItem = FRAGMENT_WALLPAPERS
+                R.id.favorites -> binding.vp2Main.currentItem = FRAGMENT_FAVORITES
+                R.id.settings -> binding.vp2Main.currentItem = FRAGMENT_SETTINGS
             }
             return@setOnItemSelectedListener true
         }
