@@ -11,3 +11,7 @@ const val FRAGMENT_WALLPAPERS = 2
 const val FRAGMENT_FAVORITES = 3
 
 const val FRAGMENT_SETTINGS = 4
+
+const val SLIDE_SHOW_KEY = "Slide Show Status Key"
+
+const val SLIDE_SHOW_CHANGE_TIME = "Time to Change WallPaper"
