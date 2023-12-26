@@ -53,6 +53,23 @@ class MainActivity : AppCompatActivity() {
             this.isUserInputEnabled = false
         }
 
+        binding.bottomNavigationView.selectedItemId = R.id.home
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> binding.vp2Main.currentItem = 1
+                R.id.category -> binding.vp2Main.currentItem = 0
+                R.id.wallPaper -> binding.vp2Main.currentItem = 2
+                R.id.favorites -> binding.vp2Main.currentItem = 3
+                R.id.settings -> binding.vp2Main.currentItem = 4
+            }
+            return@setOnItemSelectedListener true
+        }
+
+        internetStatusIndicator()
+    }
+
+    private fun internetStatusIndicator() {
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
                 val networkStatus = InternetChecker(this@MainActivity).isNetworkAvailable()
@@ -84,19 +101,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 delay(3000L)
             }
-        }
-
-        binding.bottomNavigationView.selectedItemId = R.id.home
-
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.home -> binding.vp2Main.currentItem = 1
-                R.id.category -> binding.vp2Main.currentItem = 0
-                R.id.wallPaper -> binding.vp2Main.currentItem = 2
-                R.id.favorites -> binding.vp2Main.currentItem = 3
-                R.id.settings -> binding.vp2Main.currentItem = 4
-            }
-            return@setOnItemSelectedListener true
         }
     }
 }

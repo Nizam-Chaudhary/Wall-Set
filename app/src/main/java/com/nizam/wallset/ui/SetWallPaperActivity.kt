@@ -3,7 +3,6 @@ package com.nizam.wallset.ui
 import android.app.WallpaperManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -12,11 +11,9 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
@@ -43,11 +40,6 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val materialAlertDialogDrawable = ContextCompat.getDrawable(
-            this@SetWallPaperActivity,
-            R.drawable.material_alert_diaolog_builder_background
-        )
-
         val attrib = window.attributes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             attrib.layoutInDisplayCutoutMode =
@@ -56,17 +48,37 @@ class SetWallPaperActivity : AppCompatActivity() {
 
         val url = intent.getStringExtra("url")
 
-        val circularProgress = CircularProgressDrawable(this)
-        circularProgress.strokeWidth = 7f
-        circularProgress.centerRadius = 40f
-        circularProgress.setColorFilter(
-            ContextCompat.getColor(
-                this@SetWallPaperActivity,
-                R.color.circular_progress
-            ), PorterDuff.Mode.SRC_IN
-        )
-        circularProgress.start()
+        setImage(url)
 
+        setWallPaperOnClick()
+    }
+
+    private fun setWallPaperOnClick() {
+        binding.fabApplyWallPaper.setOnClickListener {
+            val singleItems =
+                arrayOf("On Home Screen", "On Lock Screen", "On Both Screen")
+            var checkedItem = 2
+
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Apply WallPaper")
+                .setNeutralButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .setPositiveButton("Apply") { _, _ ->
+                    when (checkedItem) {
+                        0 -> setWallPaper(getBitmap(), ApplyWallPaperTo.HOME_SCREEN.value)
+                        1 -> setWallPaper(getBitmap(), ApplyWallPaperTo.LOCK_SCREEN.value)
+                        2 -> setWallPaper(getBitmap(), ApplyWallPaperTo.ON_BOTH_SCREEN.value)
+                    }
+                }
+                .setSingleChoiceItems(singleItems, checkedItem) { _, selectedOption ->
+                    checkedItem = selectedOption
+                }
+                .show()
+        }
+    }
+
+    private fun setImage(url: String?) {
         url?.let {
             Glide.with(this)
                 .load(url)
@@ -93,7 +105,6 @@ class SetWallPaperActivity : AppCompatActivity() {
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
-                        // Use coroutines for Palette generation
                         CoroutineScope(Dispatchers.Main).launch {
                             val bitmap = (resource as BitmapDrawable).bitmap
                             val palette = Palette.from(bitmap).generate()
@@ -106,43 +117,12 @@ class SetWallPaperActivity : AppCompatActivity() {
                             binding.fabApplyWallPaper.setIconTintResource(R.color.white)
                             binding.fabApplyWallPaper.background.setTint(tintedColor)
                             binding.fabApplyWallPaper.visibility = View.VISIBLE
-
-                            val darkTintedColor = ColorUtils.blendARGB(
-                                dominantColor,
-                                Color.WHITE,
-                                0.75f
-                            )
-
-                            materialAlertDialogDrawable?.setTint(darkTintedColor)
                         }
 
                         return false
                     }
                 })
                 .into(binding.imageView)
-        }
-
-        binding.fabApplyWallPaper.setOnClickListener {
-            val singleItems =
-                arrayOf("On Home Screen", "On Lock Screen", "On Both Screen")
-            var checkedItem = 2
-
-            MaterialAlertDialogBuilder(this)
-                .setTitle("Apply WallPaper")
-                .setNeutralButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setPositiveButton("Apply") { _, _ ->
-                    when (checkedItem) {
-                        0 -> setWallPaper(getBitmap(), ApplyWallPaperTo.HOME_SCREEN.value)
-                        1 -> setWallPaper(getBitmap(), ApplyWallPaperTo.LOCK_SCREEN.value)
-                        2 -> setWallPaper(getBitmap(), ApplyWallPaperTo.ON_BOTH_SCREEN.value)
-                    }
-                }
-                .setSingleChoiceItems(singleItems, checkedItem) { _, selectedOption ->
-                    checkedItem = selectedOption
-                }
-                .show()
         }
     }
 
