@@ -35,7 +35,13 @@ class CategoryRVAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryRVAdapterHolder {
-        return CategoryRVAdapterHolder(CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return CategoryRVAdapterHolder(
+            CategoryItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: CategoryRVAdapterHolder, position: Int) {
@@ -43,6 +49,20 @@ class CategoryRVAdapter(
 
         holder.textView.text = categoryItem.category
 
+        setImage(categoryItem, holder)
+
+        holder.itemView.setOnClickListener {
+            Intent(context, WallPaperByCategoriesActivity::class.java).apply {
+                this.putExtra("category", categoryItem.category)
+                context.startActivity(this)
+            }
+        }
+    }
+
+    private fun setImage(
+        categoryItem: CategoryItem,
+        holder: CategoryRVAdapterHolder
+    ) {
         Glide.with(context)
             .load(categoryItem.lowResUrl)
             .placeholder(getCircularProgressDrawable(context))
@@ -92,13 +112,6 @@ class CategoryRVAdapter(
                 }
             })
             .into(holder.imageView)
-
-        holder.itemView.setOnClickListener {
-            Intent(context, WallPaperByCategoriesActivity::class.java).apply {
-                this.putExtra("category", categoryItem.category)
-                context.startActivity(this)
-            }
-        }
     }
 
     override fun getItemCount(): Int {

@@ -52,89 +52,98 @@ class WallPapersRVAdapter(
             return imageItems.size
         }
 
-        override fun onBindViewHolder(holder: WallPapersViewHolder, position: Int) {
-            val imageItem = imageItems[position]
+    override fun onBindViewHolder(holder: WallPapersViewHolder, position: Int) {
+        val imageItem = imageItems[position]
 
-            val favoriteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
-            val filledFavoriteDrawable =
-                ContextCompat.getDrawable(context, R.drawable.ic_favorite_filled)
+        val favoriteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_favorite)
+        val filledFavoriteDrawable =
+            ContextCompat.getDrawable(context, R.drawable.ic_favorite_filled)
 
-            Glide
-                .with(context)
-                .load(imageItem.lowResUrl)
-                .placeholder(getCircularProgressDrawable(context))
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .addListener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
+        setImage(imageItem, favoriteDrawable, filledFavoriteDrawable, holder)
 
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        // Use coroutines for Palette generation
-                        CoroutineScope(Dispatchers.Main).launch {
-                            val bitmap = (resource as BitmapDrawable).bitmap
-                            val palette = Palette.from(bitmap).generate()
-                            val dominantColor = palette.getDominantColor(Color.TRANSPARENT)
-
-                            val tintedColor = ColorUtils.blendARGB(
-                                dominantColor,
-                                Color.WHITE,
-                                0.3f
-                            )
-
-                            // Assuming favoriteDrawable and filledFavoriteDrawable are Drawables
-                            favoriteDrawable?.setTint(tintedColor)
-                            filledFavoriteDrawable?.setTint(tintedColor)
-                        }
-
-                        return false
-                    }
-                })
-                .into(holder.imageView)
-
-            CoroutineScope(Dispatchers.IO).launch {
-                if (viewModel.isExists(imageItem.url)) {
-                    withContext(Dispatchers.Main) {
-                        holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        holder.btnFavorites.setImageDrawable(favoriteDrawable)
-                    }
+        CoroutineScope(Dispatchers.IO).launch {
+            if (viewModel.isExists(imageItem.url)) {
+                withContext(Dispatchers.Main) {
+                    holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
                 }
-            }
-
-
-            holder.itemView.setOnClickListener {
-                Intent(context, SetWallPaperActivity::class.java).apply {
-                    this.putExtra("url", imageItem.url)
-                    context.startActivity(this)
-                }
-            }
-
-            holder.btnFavorites.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    if(viewModel.isExists(imageItem.url)) {
-                        viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
-                        holder.btnFavorites.setImageDrawable(favoriteDrawable)
-                    } else {
-                        viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
-                        holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
-                    }
+            } else {
+                withContext(Dispatchers.Main) {
+                    holder.btnFavorites.setImageDrawable(favoriteDrawable)
                 }
             }
         }
+
+
+        holder.itemView.setOnClickListener {
+            Intent(context, SetWallPaperActivity::class.java).apply {
+                this.putExtra("url", imageItem.url)
+                context.startActivity(this)
+            }
+        }
+
+        holder.btnFavorites.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                if (viewModel.isExists(imageItem.url)) {
+                    viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
+                    holder.btnFavorites.setImageDrawable(favoriteDrawable)
+                } else {
+                    viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
+                    holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
+                }
+            }
+        }
+    }
+
+    private fun setImage(
+        imageItem: ImageItem,
+        favoriteDrawable: Drawable?,
+        filledFavoriteDrawable: Drawable?,
+        holder: WallPapersViewHolder
+    ) {
+        Glide
+            .with(context)
+            .load(imageItem.lowResUrl)
+            .placeholder(getCircularProgressDrawable(context))
+            .centerCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .addListener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // Use coroutines for Palette generation
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val bitmap = (resource as BitmapDrawable).bitmap
+                        val palette = Palette.from(bitmap).generate()
+                        val dominantColor = palette.getDominantColor(Color.TRANSPARENT)
+
+                        val tintedColor = ColorUtils.blendARGB(
+                            dominantColor,
+                            Color.WHITE,
+                            0.3f
+                        )
+
+                        // Assuming favoriteDrawable and filledFavoriteDrawable are Drawables
+                        favoriteDrawable?.setTint(tintedColor)
+                        filledFavoriteDrawable?.setTint(tintedColor)
+                    }
+
+                    return false
+                }
+            })
+            .into(holder.imageView)
+    }
 }

@@ -26,7 +26,13 @@ class RecyclerPagerAdapter(
         parent: ViewGroup,
         viewType: Int
     ): RecommendationPagerViewHolder {
-        return RecommendationPagerViewHolder(ImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return RecommendationPagerViewHolder(
+            ImageItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -36,13 +42,7 @@ class RecyclerPagerAdapter(
     override fun onBindViewHolder(holder: RecommendationPagerViewHolder, position: Int) {
         val imageItem = imageItems[position]
 
-        Glide
-            .with(context)
-            .load(imageItem.lowResUrl)
-            .placeholder(getCircularProgressDrawable(context))
-            .centerCrop()
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(holder.imageView)
+        setImage(imageItem, holder)
 
         holder.itemView.setOnClickListener {
             Intent(context, SetWallPaperActivity::class.java).apply {
@@ -50,5 +50,18 @@ class RecyclerPagerAdapter(
                 context.startActivity(this)
             }
         }
+    }
+
+    private fun setImage(
+        imageItem: ImageItem,
+        holder: RecommendationPagerViewHolder
+    ) {
+        Glide
+            .with(context)
+            .load(imageItem.lowResUrl)
+            .placeholder(getCircularProgressDrawable(context))
+            .centerCrop()
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(holder.imageView)
     }
 }
