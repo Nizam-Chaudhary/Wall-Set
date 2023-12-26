@@ -20,8 +20,4 @@ class InternetChecker(val context: Context) {
             else -> false
         }
     }
-
-    fun isNetworkStatusChanged(status: Boolean): Boolean {
-        return status != isNetworkAvailable()
-    }
 }
