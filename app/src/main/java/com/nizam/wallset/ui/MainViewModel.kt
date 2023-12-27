@@ -9,6 +9,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.nizam.wallset.SLIDE_SHOW_IMAGE_URLS_KEY
+import com.nizam.wallset.SLIDE_SHOW_WORKER_NAME
 import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.workers.LoadImageDataWorker
@@ -51,6 +52,8 @@ class MainViewModel(
         repository.isExists(url)
     }
 
+    fun getFavoritesCount() = repository.getFavoritesCount()
+
     fun startWallPaperSlideShow() {
         CoroutineScope(Dispatchers.IO).launch {
             val inputData =
@@ -66,11 +69,15 @@ class MainViewModel(
                     .build()
 
             workManager.enqueueUniquePeriodicWork(
-                "Set SlideShow Image As wallPaper",
+                SLIDE_SHOW_WORKER_NAME,
                 ExistingPeriodicWorkPolicy.KEEP,
                 changeWallPaperRequest
             )
         }
+    }
+
+    fun stopWallPaperSlideShow() {
+        workManager.cancelUniqueWork(SLIDE_SHOW_WORKER_NAME)
     }
 
     fun startWorkerToLoadData() {

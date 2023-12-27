@@ -14,8 +14,8 @@ import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 class LoadImageDataWorker(
     context: Context,
@@ -29,10 +29,11 @@ class LoadImageDataWorker(
                 val response = getJsonString(urlString)
 
                 parseAndStoreJson(response)
+                Result.success()
             } catch (e: Exception) {
                 e.printStackTrace()
+                Result.retry()
             }
-            Result.success()
         }
     }
 
@@ -46,7 +47,7 @@ class LoadImageDataWorker(
 
     private fun getJsonString(urlString: String): String {
         val url = URL(urlString)
-        val urlConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+        val urlConnection: HttpsURLConnection = url.openConnection() as HttpsURLConnection
 
         val inputStream: InputStream = urlConnection.inputStream
         val reader = BufferedReader(InputStreamReader(inputStream))

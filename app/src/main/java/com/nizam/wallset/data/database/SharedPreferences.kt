@@ -17,7 +17,7 @@ class SharedPreferences(
     fun setSlideShowChangeTime(timeInMinutes: Long) =
         sharedPreferences.edit().putLong(SLIDE_SHOW_CHANGE_TIME, timeInMinutes).apply()
 
-    fun getSlideShowStatus() = sharedPreferences.getBoolean(SLIDE_SHOW_CHANGE_TIME, false)
+    fun getSlideShowStatus() = sharedPreferences.getBoolean(SLIDE_SHOW_KEY, false)
 
     fun getSlideShowTime() = sharedPreferences.getLong(SLIDE_SHOW_CHANGE_TIME, 15L)
 }

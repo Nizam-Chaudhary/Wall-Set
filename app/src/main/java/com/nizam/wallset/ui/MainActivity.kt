@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.home -> binding.vp2Main.currentItem = FRAGMENT_CATEGORIES
-                R.id.category -> binding.vp2Main.currentItem = FRAGMENT_HOME
+                R.id.home -> binding.vp2Main.currentItem = FRAGMENT_HOME
+                R.id.category -> binding.vp2Main.currentItem = FRAGMENT_CATEGORIES
                 R.id.wallPaper -> binding.vp2Main.currentItem = FRAGMENT_WALLPAPERS
                 R.id.favorites -> binding.vp2Main.currentItem = FRAGMENT_FAVORITES
                 R.id.settings -> binding.vp2Main.currentItem = FRAGMENT_SETTINGS

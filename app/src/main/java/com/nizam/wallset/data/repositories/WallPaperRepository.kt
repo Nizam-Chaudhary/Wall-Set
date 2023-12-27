@@ -31,4 +31,6 @@ class WallPaperRepository(
     fun isExists(url: String) = database.getFavoriteDao().isExists(url)
 
     fun getWallPaperForSlideShow() = database.getFavoriteDao().getWallPaperForSlideShow()
+
+    fun getFavoritesCount() = database.getFavoriteDao().getFavoritesCount()
 }

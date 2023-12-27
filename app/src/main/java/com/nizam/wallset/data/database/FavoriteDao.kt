@@ -23,4 +23,7 @@ interface FavoriteDao{
 
     @Query("SELECT url FROM Favorite")
     fun getWallPaperForSlideShow(): Array<String>
+
+    @Query("SELECT Count(*) FROM FAVORITE")
+    fun getFavoritesCount(): Int
 }
