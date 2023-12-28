@@ -70,6 +70,7 @@ class SettingsFragment : Fragment() {
                     sharedPreferences.setSlideShowStatus(false)
                     binding.toggleSlideShow.isChecked = false
                     binding.settingSetSlideShowTime.visibility = View.GONE
+                    viewModel.stopWallPaperSlideShow()
                 }
             } else {
                 withContext(Dispatchers.Main) {

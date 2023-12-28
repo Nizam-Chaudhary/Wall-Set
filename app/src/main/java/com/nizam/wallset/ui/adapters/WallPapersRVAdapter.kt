@@ -36,21 +36,37 @@ class WallPapersRVAdapter(
     private val context: Context) :
     RecyclerView.Adapter<WallPapersRVAdapter.WallPapersViewHolder>() {
 
-        inner class WallPapersViewHolder(view: WallpaperImageItemBinding) : RecyclerView.ViewHolder(view.root) {
-            val imageView = view.imageView
-            val btnFavorites = view.btnFavorites
-        }
+    companion object {
+        val urlChangedListFromWallPaper = mutableListOf<ImageItem>()
+        val urlChangedListFromCategories = mutableListOf<ImageItem>()
+        val urlChangedListFromTopPicks = mutableListOf<ImageItem>()
+        var isChangedFromCategory = false
+        var isChangedFromTopPicks = false
+        var isChangedFromWallPaper = false
+    }
 
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): WallPapersViewHolder {
-            return WallPapersViewHolder(WallpaperImageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        }
+    inner class WallPapersViewHolder(view: WallpaperImageItemBinding) :
+        RecyclerView.ViewHolder(view.root) {
+        val imageView = view.imageView
+        val btnFavorites = view.btnFavorites
+    }
 
-        override fun getItemCount(): Int {
-            return imageItems.size
-        }
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): WallPapersViewHolder {
+        return WallPapersViewHolder(
+            WallpaperImageItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun getItemCount(): Int {
+        return imageItems.size
+    }
 
     override fun onBindViewHolder(holder: WallPapersViewHolder, position: Int) {
         val imageItem = imageItems[position]
@@ -73,7 +89,6 @@ class WallPapersRVAdapter(
             }
         }
 
-
         holder.itemView.setOnClickListener {
             Intent(context, SetWallPaperActivity::class.java).apply {
                 this.putExtra("url", imageItem.url)
@@ -83,13 +98,30 @@ class WallPapersRVAdapter(
 
         holder.btnFavorites.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
+                if (!isChangedFromCategory) urlChangedListFromCategories.clear()
+                if (!isChangedFromWallPaper) urlChangedListFromWallPaper.clear()
+                if (!isChangedFromTopPicks) urlChangedListFromTopPicks.clear()
+
                 if (viewModel.isExists(imageItem.url)) {
                     viewModel.delete(Favorite(imageItem.url, imageItem.lowResUrl))
                     holder.btnFavorites.setImageDrawable(favoriteDrawable)
+
+                    urlChangedListFromWallPaper.add(imageItem)
+                    urlChangedListFromTopPicks.add(imageItem)
+                    urlChangedListFromCategories.add(imageItem)
+                    isChangedFromCategory = true
+                    isChangedFromTopPicks = true
+                    isChangedFromWallPaper = true
                 } else {
                     viewModel.upsert(Favorite(imageItem.url, imageItem.lowResUrl))
                     holder.btnFavorites.setImageDrawable(filledFavoriteDrawable)
                 }
+                urlChangedListFromWallPaper.add(imageItem)
+                urlChangedListFromTopPicks.add(imageItem)
+                urlChangedListFromCategories.add(imageItem)
+                isChangedFromCategory = true
+                isChangedFromTopPicks = true
+                isChangedFromWallPaper = true
             }
         }
     }

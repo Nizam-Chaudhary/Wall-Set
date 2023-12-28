@@ -15,11 +15,16 @@ import com.nizam.wallset.databinding.FragmentWallPapersBinding
 import com.nizam.wallset.ui.MainViewModel
 import com.nizam.wallset.ui.MainViewModelFactory
 import com.nizam.wallset.ui.adapters.WallPapersRVAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WallPapersFragment : Fragment() {
 
     private lateinit var binding: FragmentWallPapersBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var wallPapersAdapter: WallPapersRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +42,41 @@ class WallPapersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val wallPapersAdapter = WallPapersRVAdapter(emptyList(), viewModel, requireContext())
+        wallPapersAdapter = WallPapersRVAdapter(emptyList(), viewModel, requireContext())
 
         binding.rvWallPapers.apply {
-            this.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+            this.layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
             this.adapter = wallPapersAdapter
         }
 
         viewModel.getAllImages().observe(viewLifecycleOwner) {
             wallPapersAdapter.imageItems = it
             wallPapersAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        syncFavoritesStatus()
+    }
+
+    private fun syncFavoritesStatus() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (WallPapersRVAdapter.isChangedFromWallPaper) {
+                for (item in WallPapersRVAdapter.urlChangedListFromWallPaper) {
+                    withContext(Dispatchers.Main) {
+                        wallPapersAdapter.notifyItemChanged(
+                            wallPapersAdapter.imageItems.indexOf(
+                                item
+                            )
+                        )
+                    }
+                    //WallPapersRVAdapter.urlChangedListFromWallPaper.remove(item)
+                }
+                WallPapersRVAdapter.isChangedFromWallPaper = false
+            }
         }
     }
 }
