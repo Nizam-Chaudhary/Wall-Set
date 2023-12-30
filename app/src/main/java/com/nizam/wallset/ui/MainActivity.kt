@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val database = WallPaperDatabase(this)
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository, Application())
+        val factory = MainViewModelFactory(repository, Application(), this@MainActivity)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         viewModel.startWorkerToLoadData()

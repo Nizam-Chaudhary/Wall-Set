@@ -30,7 +30,8 @@ class WallPaperByCategoriesActivity : AppCompatActivity() {
 
         val database = WallPaperDatabase(this)
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository, Application())
+        val factory =
+            MainViewModelFactory(repository, Application(), this@WallPaperByCategoriesActivity)
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         val adapter =

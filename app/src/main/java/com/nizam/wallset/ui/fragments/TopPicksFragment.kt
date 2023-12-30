@@ -36,7 +36,7 @@ class TopPicksFragment : Fragment() {
         binding = FragmentTopPicksBinding.bind(view)
         val database = WallPaperDatabase(requireContext())
         val repository = WallPaperRepository(database)
-        val factory = MainViewModelFactory(repository, Application())
+        val factory = MainViewModelFactory(repository, Application(), requireContext())
         viewModel = ViewModelProvider(this,factory)[MainViewModel::class.java]
         return binding.root
     }

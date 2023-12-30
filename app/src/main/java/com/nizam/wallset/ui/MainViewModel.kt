@@ -1,6 +1,7 @@
 package com.nizam.wallset.ui
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -10,6 +11,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.nizam.wallset.SLIDE_SHOW_IMAGE_URLS_KEY
 import com.nizam.wallset.SLIDE_SHOW_WORKER_NAME
+import com.nizam.wallset.data.database.SharedPreferences
 import com.nizam.wallset.data.database.entities.Favorite
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.workers.LoadImageDataWorker
@@ -22,8 +24,11 @@ import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val repository: WallPaperRepository,
-    application: Application
+    application: Application,
+    context: Context
 ) : ViewModel() {
+
+    private val sharedPreferences = SharedPreferences(context)
 
     private val workManager = WorkManager.getInstance(application)
 
@@ -59,7 +64,10 @@ class MainViewModel(
             val inputData =
                 workDataOf(SLIDE_SHOW_IMAGE_URLS_KEY to repository.getWallPaperForSlideShow())
             val changeWallPaperRequest =
-                PeriodicWorkRequestBuilder<SlideShowWorker>(1, TimeUnit.HOURS)
+                PeriodicWorkRequestBuilder<SlideShowWorker>(
+                    sharedPreferences.getSlideShowTime(),
+                    TimeUnit.MINUTES
+                )
                     .setInputData(inputData)
                     .setConstraints(
                         Constraints(
