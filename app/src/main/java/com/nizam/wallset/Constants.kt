@@ -17,3 +17,5 @@ const val SLIDE_SHOW_KEY = "Slide Show Status Key"
 const val SLIDE_SHOW_CHANGE_TIME = "Time to Change WallPaper"
 
 const val SLIDE_SHOW_WORKER_NAME = "Set SlideShow Image As wallPaper"
+
+const val CATEGORY_NAME = "Category Name"

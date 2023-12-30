@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.nizam.wallset.CATEGORY_NAME
 import com.nizam.wallset.data.database.WallPaperDatabase
 import com.nizam.wallset.data.repositories.WallPaperRepository
 import com.nizam.wallset.databinding.ActivityWallPaperByCategoriesBinding
@@ -32,19 +33,21 @@ class WallPaperByCategoriesActivity : AppCompatActivity() {
         val factory = MainViewModelFactory(repository, Application())
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
-        adapter = WallPapersRVAdapter(emptyList(), viewModel, this@WallPaperByCategoriesActivity)
+        val adapter =
+            WallPapersRVAdapter(emptyList(), viewModel, this@WallPaperByCategoriesActivity)
 
         binding.recyclerView.apply {
-            this.adapter = adapter
             this.layoutManager = GridLayoutManager(
                 this@WallPaperByCategoriesActivity,
                 2,
                 GridLayoutManager.VERTICAL,
                 false
             )
+            this.adapter = adapter
         }
 
-        intent.getStringExtra("category")?.let { category ->
+        val category = intent.getStringExtra(CATEGORY_NAME)
+        category?.let {
             viewModel.getWallPaperByCategories(category).observe(this) {
                 adapter.imageItems = it
                 adapter.notifyDataSetChanged()

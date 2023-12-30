@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.nizam.wallset.CATEGORY_NAME
 import com.nizam.wallset.data.database.CategoryItem
 import com.nizam.wallset.databinding.CategoryItemBinding
 import com.nizam.wallset.ui.WallPaperByCategoriesActivity
@@ -53,7 +54,7 @@ class CategoryRVAdapter(
 
         holder.itemView.setOnClickListener {
             Intent(context, WallPaperByCategoriesActivity::class.java).apply {
-                this.putExtra("category", categoryItem.category)
+                this.putExtra(CATEGORY_NAME, categoryItem.category)
                 context.startActivity(this)
             }
         }
