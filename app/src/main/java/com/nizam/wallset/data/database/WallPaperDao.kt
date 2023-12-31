@@ -25,9 +25,9 @@ interface WallPaperDao {
     @Query("SELECT url, lowResUrl FROM WallPaper ORDER BY RANDOM() LIMIT 5")
     fun getRecommendationWalls(): LiveData<List<ImageItem>>
 
-    @Query("SELECT url, lowResUrl FROM WALLPAPER WHERE topPick = 1 ORDER BY RANDOM()")
+    @Query("SELECT url, lowResUrl FROM WALLPAPER WHERE topPick = 1")
     fun getTopPicks() : LiveData<List<ImageItem>>
 
-    @Query("SELECT url, lowResUrl FROM WallPaper ORDER BY RANDOM()")
+    @Query("SELECT url, lowResUrl FROM WallPaper")
     fun getAllImages() : LiveData<List<ImageItem>>
 }
